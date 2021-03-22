@@ -10,16 +10,19 @@ import org.bukkit.plugin.java.JavaPlugin
 
 var jda: JDA? = null
 var inited = false
+var instance: WildDiscord? = null
 
 class WildDiscord : JavaPlugin(), Listener {
 
     override fun onEnable() {
+        instance = this
         if(!dataFolder.exists()) {
             this.saveDefaultConfig()
             println("Wild - initiallized configuration!")
         }
         val builder = JDABuilder.createDefault(this.config.getString("token"))
             .setActivity(Activity.playing("Minecraft : netherald.kro.kr"))
+            .addEventListeners(DiscordListener())
         jda = builder.build()
         println("Wild - discord module enabled!")
         server.pluginManager.registerEvents(this, this)
@@ -28,9 +31,13 @@ class WildDiscord : JavaPlugin(), Listener {
         println("Wild - Discord Plugin load done.")
     }
 
+    override fun onDisable() {
+        jda?.shutdown()
+    }
+
     @EventHandler
     fun onChat(event: AsyncPlayerChatEvent) {
-        val channel = jda?.getTextChannelById(this.config.getString("token")!!)
+        val channel = jda?.getTextChannelById(this.config.getString("channelId")!!)
         channel?.sendMessage("**${event.player.name}**: ${event.message}")?.queue()
     }
 
