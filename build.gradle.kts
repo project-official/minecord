@@ -12,6 +12,7 @@ repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://jitpack.io")
+    jcenter()
     //maven("https://repo.dmulloy2.net/repository/public/")
 }
 
@@ -20,6 +21,7 @@ dependencies {
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
     compileOnly("com.github.spigradle.spigradle:kr.entree.spigradle.base.gradle.plugin:v2.2.3")
     compileOnly(paper("1.16.5"))
+    implementation("net.dv8tion:JDA:4.2.0_168")
     //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
 

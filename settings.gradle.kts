@@ -1,2 +1,2 @@
-rootProject.name = "KotlinPaperTamplete"
+rootProject.name = "wild-discordmc"
 
