@@ -3,9 +3,12 @@ package xyz.netherald.wildDiscord
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
+import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.plugin.java.JavaPlugin
 
 var jda: JDA? = null
@@ -39,6 +42,18 @@ class WildDiscord : JavaPlugin(), Listener {
     fun onChat(event: AsyncPlayerChatEvent) {
         val channel = jda?.getTextChannelById(this.config.getString("channelId")!!)
         channel?.sendMessage("**${event.player.name}**: ${event.message}")?.queue()
+    }
+
+    @EventHandler
+    fun onJoin(event: PlayerJoinEvent) {
+        val channel = jda?.getTextChannelById(this.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.player.name}**님이 게임에 들어왔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size}/${Bukkit.getMaxPlayers()}명")?.queue()
+    }
+
+    @EventHandler
+    fun onLeave(event: PlayerQuitEvent) {
+        val channel = jda?.getTextChannelById(this.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.player.name}**님이 게임에서 나갔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size}/${Bukkit.getMaxPlayers()}명")?.queue()
     }
 
 }
