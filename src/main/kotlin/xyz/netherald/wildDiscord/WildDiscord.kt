@@ -53,7 +53,7 @@ class WildDiscord : JavaPlugin(), Listener {
     @EventHandler
     fun onLeave(event: PlayerQuitEvent) {
         val channel = jda?.getTextChannelById(this.config.getString("channelId")!!)
-        channel?.sendMessage("**${event.player.name}**님이 게임에서 나갔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size}/${Bukkit.getMaxPlayers()}명")?.queue()
+        channel?.sendMessage("**${event.player.name}**님이 게임에서 나갔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size - 1}/${Bukkit.getMaxPlayers()}명")?.queue()
     }
 
 }
