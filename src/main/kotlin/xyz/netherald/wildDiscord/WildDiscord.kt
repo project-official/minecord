@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Activity
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -36,6 +37,12 @@ class WildDiscord : JavaPlugin(), Listener {
 
     override fun onDisable() {
         jda?.shutdown()
+    }
+
+    @EventHandler
+    fun onPlayerDeath(event : PlayerDeathEvent) {
+        val channel = jda?.getTextChannelById(config.getString("channelId")!!)
+        channel?.sendMessage("**${event.deathMessage}**")?.queue()
     }
 
     @EventHandler
