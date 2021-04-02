@@ -5,8 +5,8 @@ plugins {
     id("kr.entree.spigradle") version "2.2.3"
 }
 
-group = "org.example"
-version = "1.0.0"
+group = "xyz.netherald"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
@@ -28,9 +28,9 @@ dependencies {
 }
 
 spigot {
-    authors = listOf("명이")
-    apiVersion = project.property("apiVersion").toString()
-    //depends = listOf("ProtocolLib")
+    authors = listOf("명이","나무트리")
+    apiVersion = "1.16"
+        //depends = listOf("ProtocolLib")
     commands {
         //create("hello")
     }

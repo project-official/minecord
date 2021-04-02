@@ -14,7 +14,16 @@ class DiscordListener : EventListener {
             if(!event.message.author.isBot) {
                 if (event.channelType != ChannelType.PRIVATE) {
                     if(event.channel.id == instance?.config?.getString("channelId"))
-                        Bukkit.broadcastMessage("<${ChatColor.DARK_PURPLE}${event.author.asTag}${ChatColor.RESET}> ${event.message.contentRaw}")
+                        if (event.message.contentRaw == "!online") {
+                            var memberStr = "**온라인 유저** : \n```"
+                            for (p in Bukkit.getOnlinePlayers()) {
+                               memberStr += p.name+"\n"
+                            }
+
+                            memberStr += "```"
+                            event.channel.sendMessage(memberStr).queue()
+                        }
+                        else Bukkit.broadcastMessage("<${ChatColor.DARK_PURPLE}${event.author.asTag}${ChatColor.RESET}> ${event.message.contentRaw}")
                 }
             }
         }
