@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "xyz.netherald"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ dependencies {
 }
 
 spigot {
-    authors = listOf("명이","나무트리")
+    authors = listOf("명이","나무트리","프로젝트")
     apiVersion = "1.16"
         //depends = listOf("ProtocolLib")
     commands {
