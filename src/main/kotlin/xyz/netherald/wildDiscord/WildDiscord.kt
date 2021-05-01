@@ -33,10 +33,23 @@ class WildDiscord : JavaPlugin(), Listener {
         println("Wild - minecraft listener registered!")
         inited = true
         println("Wild - Discord Plugin load done.")
+
+        startMessage()
     }
 
     override fun onDisable() {
+        stopMessage()
         jda?.shutdown()
+    }
+
+    private fun startMessage() {
+        val channel = jda?.getTextChannelById(config.getString("channelId")!!)
+        channel?.sendMessage("**서버가 시작 되었습니다.** :white_check_mark:")?.queue()
+    }
+
+    private fun stopMessage() {
+        val channel = jda?.getTextChannelById(config.getString("channelId")!!)
+        channel?.sendMessage("**서버가 종료 되었습니다.** :stop_sign:")?.queue()
     }
 
     @EventHandler
