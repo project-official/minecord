@@ -1,8 +1,8 @@
-import kr.entree.spigradle.kotlin.spigot
-
 plugins {
-    kotlin("jvm") version "1.4.10"
-    id("kr.entree.spigradle") version "2.2.3"
+    kotlin("jvm") version "1.5.0"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+
+    `maven-publish`
 }
 
 group = "xyz.netherald"
@@ -11,22 +11,28 @@ version = "1.0.0"
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://m2.dv8tion.net/releases")
     maven("https://jitpack.io")
-    jcenter()
+
+    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/") {
+        name = "sonatype-oss-snapshots"
+    }
+
     //maven("https://repo.dmulloy2.net/repository/public/")
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
-    compileOnly("com.github.spigradle.spigradle:kr.entree.spigradle.base.gradle.plugin:v2.2.3")
-    compileOnly(spigot("1.16.5"))
-    implementation("net.dv8tion:JDA:4.2.0_168") {
+    implementation("net.kyori:adventure-api:4.7.0")
+    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
+
+    implementation("net.dv8tion:JDA:4.2.1_253") {
         exclude("club.minnced", "opus-java")
     }
+
     //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
-
+/*
 spigot {
     authors = listOf("명이","나무트리","프로젝트")
     apiVersion = "1.16"
@@ -35,6 +41,7 @@ spigot {
         //create("hello")
     }
 }
+ */
 
 val shade = configurations.create("shade")
 shade.extendsFrom(configurations.implementation.get())
@@ -56,18 +63,26 @@ tasks {
         kotlinOptions.jvmTarget = "1.8"
     }
 
+    processResources {
+        filesMatching("*.yml") {
+            expand(project.properties)
+        }
+    }
+
     create<Jar>("sourceJar") {
         archiveClassifier.set("source")
         from(sourceSets["main"].allSource)
     }
 
-    jar {
-        from (shade.map { if (it.isDirectory) it else zipTree(it) })
+    shadowJar {
+        archiveBaseName.set(project.name)
+        archiveVersion.set("")
+        archiveClassifier.set("")
     }
 
     // From monun/tap-sample-plugin
     create<Copy>("copyToServer") {
-        from(jar)
+        from(shadowJar)
         val plugins = File(rootDir, ".server/plugins")
         if (File(shade.artifacts.files.asPath).exists()) {
             into(File(plugins, "update"))
