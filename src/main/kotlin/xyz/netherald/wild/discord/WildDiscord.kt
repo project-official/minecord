@@ -6,7 +6,10 @@ import net.dv8tion.jda.api.entities.Activity
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import xyz.netherald.wild.discord.listeners.ChattingListener
 import xyz.netherald.wild.discord.listeners.DiscordListener
+import xyz.netherald.wild.discord.listeners.JoinQuitListener
+import xyz.netherald.wild.discord.listeners.PlayerDeathListener
 
 class WildDiscord : JavaPlugin(), Listener {
 
@@ -38,6 +41,12 @@ class WildDiscord : JavaPlugin(), Listener {
         getCommand("discord")?.apply {
             setExecutor(ServerCommand(this@WildDiscord))
             tabCompleter = ServerCommand(this@WildDiscord)
+        }
+
+        server.pluginManager.apply {
+            registerEvents(ChattingListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(JoinQuitListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(PlayerDeathListener(this@WildDiscord), this@WildDiscord)
         }
 
         Bukkit.getScheduler().runTaskLater(this, Runnable {

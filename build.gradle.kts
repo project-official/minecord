@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "xyz.netherald"
-version = "2.0.0"
+version = "2.0.1"
 
 repositories {
     mavenCentral()
@@ -26,8 +26,7 @@ dependencies {
     implementation("net.kyori:adventure-api:4.7.0")
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
 
-    implementation("net.dv8tion:JDA:4.2.1_253") {
-
+    implementation("net.dv8tion:JDA:4.2.1_253")
     //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
 /*
@@ -73,7 +72,7 @@ tasks {
         archiveVersion.set("")
         archiveClassifier.set("")
     }
-
+/*
     // From monun/tap-sample-plugin
     create<Copy>("copyToServer") {
         from(shadowJar)
@@ -84,4 +83,6 @@ tasks {
             into(plugins)
         }
     }
+
+ */
 }
