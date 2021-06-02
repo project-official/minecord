@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-=======
-import kr.entree.spigradle.kotlin.paper
-import kr.entree.spigradle.kotlin.spigot
-
->>>>>>> be41d44c35fd1f904b882016956d99013bc18707
 plugins {
     kotlin("jvm") version "1.5.0"
     id("com.github.johnrengelman.shadow") version "7.0.0"
@@ -29,19 +23,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-<<<<<<< HEAD
     implementation("net.kyori:adventure-api:4.7.0")
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
 
     implementation("net.dv8tion:JDA:4.2.1_253") {
-=======
-    compileOnly("com.github.spigradle.spigradle:kr.entree.spigradle.base.gradle.plugin:v2.2.3")
-    compileOnly(paper("1.16.5"))
-    implementation("net.kyori:adventure-text-minimessage:4.1.0-SNAPSHOT")
-    implementation("net.dv8tion:JDA:4.2.0_168") {
->>>>>>> be41d44c35fd1f904b882016956d99013bc18707
-        exclude("club.minnced", "opus-java")
-    }
 
     //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
@@ -56,11 +41,7 @@ spigot {
 }
  */
 
-val shade = configurations.create("shade")
-shade.extendsFrom(configurations.implementation.get())
-
 tasks {
-
     javadoc {
         options.encoding = "UTF-8"
     }
