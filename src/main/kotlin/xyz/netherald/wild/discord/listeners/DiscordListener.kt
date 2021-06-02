@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
-import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import xyz.netherald.wild.discord.WildDiscord
@@ -20,7 +19,7 @@ class DiscordListener : EventListener {
                         if (event.message.contentRaw == "!online") {
                             var memberStr = "**온라인 유저** : \n```"
                             memberStr += "인원: ${Bukkit.getOnlinePlayers().size}명\n"
-                            if (Bukkit.getOnlinePlayers() != null) {
+                            if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                                 for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
                                     memberStr += "**${player.name}**\n"
                                     println("[Discord] ${i}번째 사람")
