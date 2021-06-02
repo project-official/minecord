@@ -19,7 +19,7 @@ class DiscordListener : EventListener {
                     if(event.channel.id == WildDiscord.instance?.config?.getString("channelId"))
                         if (event.message.contentRaw == "!online") {
                             var memberStr = "**온라인 유저** : \n```"
-                            memberStr += "인원: ${Bukkit.getOnlinePlayers().size}명"
+                            memberStr += "인원: ${Bukkit.getOnlinePlayers().size}명\n"
                             if (Bukkit.getOnlinePlayers() != null) {
                                 for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
                                     memberStr += "**${player.name}**\n"
@@ -29,7 +29,7 @@ class DiscordListener : EventListener {
                                 memberStr += "**사람이 없습니다**\n"
                             }
 
-                            memberStr += "===${WildDiscord.serverAddress}==="
+                            memberStr += "===${WildDiscord.serverAddress}==\n"
                             memberStr += "```"
                             event.channel.sendMessage(memberStr).queue()
                         } else {
