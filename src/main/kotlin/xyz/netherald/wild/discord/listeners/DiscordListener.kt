@@ -29,7 +29,7 @@ class DiscordListener : EventListener {
                                 memberStr += "**사람이 없습니다**\n"
                             }
 
-                            memberStr += "===${WildDiscord.serverAddress}==\n"
+                            memberStr += "===${WildDiscord.serverAddress}===\n"
                             memberStr += "```"
                             event.channel.sendMessage(memberStr).queue()
                         } else {
