@@ -6,10 +6,7 @@ import net.dv8tion.jda.api.entities.Activity
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
-import xyz.netherald.wild.discord.listeners.ChattingListener
 import xyz.netherald.wild.discord.listeners.DiscordListener
-import xyz.netherald.wild.discord.listeners.JoinQuitListener
-import xyz.netherald.wild.discord.listeners.PlayerDeathListener
 
 class WildDiscord : JavaPlugin(), Listener {
 
@@ -25,16 +22,16 @@ class WildDiscord : JavaPlugin(), Listener {
         instance = this
         if (!dataFolder.exists()) {
             this.saveDefaultConfig()
-            println("Wild - initiallized configuration!")
+            println("Wild - Initialized configuration!")
         }
         val builder = JDABuilder.createDefault(this.config.getString("token"))
             .setActivity(Activity.playing("Minecraft : $serverAddress"))
-            .addEventListeners(DiscordListener())
+            .addEventListeners(DiscordListener(this))
         jda = builder.build()
 
-        println("Wild - discord module enabled!")
+        println("Wild - Discord module enabled!")
         server.pluginManager.registerEvents(this, this)
-        println("Wild - minecraft listener registered!")
+        println("Wild - Minecraft listener registered!")
         init = true
         println("Wild - Discord Plugin load done.")
 
@@ -43,16 +40,9 @@ class WildDiscord : JavaPlugin(), Listener {
             tabCompleter = ServerCommand(this@WildDiscord)
         }
 
-        server.pluginManager.apply {
-            registerEvents(ChattingListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(JoinQuitListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(PlayerDeathListener(this@WildDiscord), this@WildDiscord)
-        }
+        server.pluginManager.registerEvents(DiscordListener(this), this)
 
         Bukkit.getScheduler().runTaskLater(this, Runnable {
-            // debug code
-            println("print start")
-
             startMessage()
         }, 20L)
     }

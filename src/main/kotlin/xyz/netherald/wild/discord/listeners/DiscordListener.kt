@@ -1,15 +1,22 @@
 package xyz.netherald.wild.discord.listeners
 
+import io.papermc.paper.event.player.AsyncChatEvent
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
+import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import xyz.netherald.wild.discord.WildDiscord
 
 @Suppress("DEPRECATION")
-class DiscordListener : EventListener {
+class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener {
 
     override fun onEvent(event: GenericEvent) {
         if(event is MessageReceivedEvent) {
@@ -21,15 +28,14 @@ class DiscordListener : EventListener {
                             memberStr += "인원: ${Bukkit.getOnlinePlayers().size}명\n"
                             if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                                 for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
-                                    memberStr += "**${player.name}**\n"
-                                    println("[Discord] ${i}번째 사람")
+                                    memberStr += "$i: ${player.name}\n"
                                 }
                             } else {
-                                memberStr += "**사람이 없습니다**\n"
+                                memberStr += "사람이 없습니다\n"
                             }
-
-                            memberStr += "===${WildDiscord.serverAddress}===\n"
                             memberStr += "```"
+                            memberStr += "========${WildDiscord.serverAddress}========\n"
+
                             event.channel.sendMessage(memberStr).queue()
                         } else {
                             Bukkit.broadcastMessage("<${ChatColor.DARK_PURPLE}${event.author.asTag}${ChatColor.RESET}> ${event.message.contentRaw}")
@@ -37,5 +43,29 @@ class DiscordListener : EventListener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    fun onChat(event: AsyncChatEvent) {
+        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.player.name}**: ${(event.message() as TextComponent).content()}")?.queue()
+    }
+
+    @EventHandler
+    fun onJoin(event: PlayerJoinEvent) {
+        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.player.name}**님이 게임에 들어왔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size}/${Bukkit.getMaxPlayers()}명")?.queue()
+    }
+
+    @EventHandler
+    fun onLeave(event: PlayerQuitEvent) {
+        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.player.name}**님이 게임에서 나갔습니다. 현재 플레이어 수: ${Bukkit.getOnlinePlayers().size - 1}/${Bukkit.getMaxPlayers()}명")?.queue()
+    }
+
+    @EventHandler
+    fun onPlayerDeath(event : PlayerDeathEvent) {
+        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        channel?.sendMessage("**${event.deathMessage()}**")?.queue()
     }
 }
