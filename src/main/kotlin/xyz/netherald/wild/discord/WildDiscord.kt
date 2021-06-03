@@ -22,18 +22,20 @@ class WildDiscord : JavaPlugin(), Listener {
         instance = this
         if (!dataFolder.exists()) {
             this.saveDefaultConfig()
-            println("Wild - Initialized configuration!")
+            Bukkit.getLogger().info("Wild - Initialized configuration!")
         }
+
         val builder = JDABuilder.createDefault(this.config.getString("token"))
             .setActivity(Activity.playing("Minecraft : $serverAddress"))
             .addEventListeners(DiscordListener(this))
+
         jda = builder.build()
 
-        println("Wild - Discord module enabled!")
+        Bukkit.getLogger().info("Wild - Discord module enabled!")
         server.pluginManager.registerEvents(this, this)
-        println("Wild - Minecraft listener registered!")
+        Bukkit.getLogger().info("Wild - Minecraft listener registered!")
         init = true
-        println("Wild - Discord Plugin load done.")
+        Bukkit.getLogger().info("Wild - Discord Plugin load done.")
 
         getCommand("discord")?.apply {
             setExecutor(ServerCommand(this@WildDiscord))
