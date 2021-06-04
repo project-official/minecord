@@ -1,5 +1,6 @@
 package xyz.netherald.wild.discord
 
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -17,7 +18,7 @@ class ServerCommand(private val plugin: WildDiscord): CommandExecutor, TabComple
                         WildDiscord.serverAddress = address
                         plugin.address(true)
 
-                        println("[Discord] Server address is changed this -> $address")
+                        Bukkit.getLogger().info("[Discord] Server address is changed this -> $address")
 
                         return true
                     }
