@@ -235,6 +235,6 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
     @EventHandler
     fun onPlayerDeath(event : PlayerDeathEvent) {
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        channel?.sendMessage("**${event.deathMessage()}**")?.queue()
+        channel?.sendMessage("**${event.entity.player?.name}님이 사망 하셨습니다.**")?.queue()
     }
 }
