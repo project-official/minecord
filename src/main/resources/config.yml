@@ -1,5 +1,14 @@
 token: "" # The discord bot token
 channelId: "" # The id of main channel
-messageFormat: "" # EX) <red><sender><white> : <message>
+messageFormat: "" # EX) <red><sender><reset> : <message>
+customColor: false
+supportMarkdown: true
 
 styleOnlineCommand: 0
+NoMemberMessage: "사람이 없습니다."
+
+# Customizing is possible with Style 1.
+embedColor: 0x0070ff
+embedTitle: "**온라인 유저**"
+embedField1: "인원:"
+embedField2: "목록:"
