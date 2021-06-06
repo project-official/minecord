@@ -190,7 +190,7 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                                 var memberStr = "```\n"
                                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                                     for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
-                                        memberStr += "$i 번째: ${player.name}\n"
+                                        memberStr += "${i+1} 번째: ${player.name}\n"
                                     }
                                 } else {
                                     memberStr += "${noMember?:"사람이 없습니다."}\n"
