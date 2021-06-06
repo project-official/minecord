@@ -17,7 +17,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
 import xyz.netherald.wild.discord.WildDiscord
-import java.lang.management.PlatformLoggingMXBean
 
 
 @Suppress("DEPRECATION")
@@ -191,14 +190,8 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
     private fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
         val player: String = replacePlayer(event.player, formatter)
 
-        val advancements: Collection<String> = event.advancement.criteria
-        var advancement = ""
-        for ((i, item) in advancements.withIndex()) {
-            advancement += item
-            if (i < advancements.size - 1) advancement += ","
-        }
-
-        return player.replace("<advancement>", advancement)
+        val advancement: String = event.advancement.key.key
+        return player.replace("<advancement>", advancement.replace("adventure/", ""))
     }
 
     override fun onEvent(event: GenericEvent) {

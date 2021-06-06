@@ -28,7 +28,7 @@ leaveFormat: "**<player>**님이 게임에서 나갔습니다. 현재 플레이�
 joinEmbed: false
 leaveEmbed: false
 joinEmbedColor: 0x43b581
-leaveEmbedColor: 0x8e9297
+leaveEmbedColor: 0xc14243
 joinEmbedTitle: ""
 leaveEmbedTitle: ""
 
@@ -41,11 +41,11 @@ deathEmbedTitle: ""
 kickEnable: true
 kickFormat: "**<player>님이 추방 되었습니다.**"
 kickEmbed: false
-kickEmbedColor: 0x8e9297
+kickEmbedColor: 0xc14243
 kickEmbedTitle: ""
 
 advancementEnable: true
-advancementFormat: "**<player>님이 <advancement>를 클리어 하였습니다..**"
+advancementFormat: "**<player>님이 <advancement>를 클리어 하였습니다.**"
 advancementEmbed: false
 advancementEmbedColor: 0x0070ff
 advancementEmbedTitle: ""
