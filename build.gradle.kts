@@ -17,6 +17,7 @@ repositories {
     maven(url = "https://oss.sonatype.org/content/repositories/snapshots/") {
         name = "sonatype-oss-snapshots"
     }
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
 
     //maven("https://repo.dmulloy2.net/repository/public/")
 }
@@ -25,20 +26,10 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("net.kyori:adventure-api:4.7.0")
     compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-
-    implementation("net.dv8tion:JDA:4.2.1_253")
+    implementation("dev.kord:kord-core:0.7.x-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
-/*
-spigot {
-    authors = listOf("명이","나무트리","프로젝트")
-    apiVersion = "1.16"
-        //depends = listOf("ProtocolLib")
-    commands {
-        //create("hello")
-    }
-}
- */
 
 tasks {
     javadoc {
