@@ -381,7 +381,7 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
         val format: String = plugin.config.getString("advancementFormat")?:
             "**<player>님이 <advancement>를 클리어 하였습니다..**"
 
-        if (plugin.config.getBoolean("deathEmbed")) {
+        if (plugin.config.getBoolean("advancementEmbed")) {
             val title: String? = plugin.config.getString("advancementEmbedTitle")
             val description: String = replaceAdvancementFormat(event, format)
             val color: Int = plugin.config.getInt("advancementEmbedColor")
