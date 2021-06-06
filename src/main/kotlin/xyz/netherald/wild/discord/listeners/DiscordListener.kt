@@ -15,11 +15,9 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.player.PlayerEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerKickEvent
-import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.event.player.*
 import xyz.netherald.wild.discord.WildDiscord
+import java.lang.management.PlatformLoggingMXBean
 
 
 @Suppress("DEPRECATION")
@@ -83,6 +81,8 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                     for (color in listColor) {
                         if (value.startsWith(color)) {
                             setColor = color
+
+                            markdown_message += color
                             index += color.length
                             alreadyColor = true
                             break
@@ -188,6 +188,19 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
         return player.replace("<message>", "${event.deathMessage}")
     }
 
+    private fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
+        val player: String = replacePlayer(event.player, formatter)
+
+        val advancements: Collection<String> = event.advancement.criteria
+        var advancement = ""
+        for ((i, item) in advancements.withIndex()) {
+            advancement += item
+            if (i < advancements.size - 1) advancement += ","
+        }
+
+        return player.replace("<advancement>", advancement)
+    }
+
     override fun onEvent(event: GenericEvent) {
         if (event is MessageReceivedEvent) {
             if (!event.message.author.isBot) {
@@ -256,41 +269,133 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
 
         val format: String = plugin.config.getString("chatFormat") ?: "**<player>**: <message>"
-        channel?.sendMessage("${replaceMsgFormat(event, format)}")?.queue()
+        channel?.sendMessage(replaceMsgFormat(event, format))?.queue()
     }
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
+        if (!plugin.config.getBoolean("accessEnable")) return
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-
         val format: String = plugin.config.getString("joinFormat")?:
             "**<player>**님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
-        channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+
+        if (plugin.config.getBoolean("joinEmbed")) {
+            val title: String? = plugin.config.getString("joinEmbedTitle")
+            val description: String = replaceAccessFormat(event, format)
+            val color: Int = plugin.config.getInt("joinEmbedColor")
+            val builder = EmbedBuilder().setDescription(description)
+                .setColor(color)
+
+            if (!(title == null || title == "")) {
+                builder.setTitle(title)
+            }
+
+            val embed: MessageEmbed = builder.build()
+            channel?.sendMessage(embed)?.queue()
+        } else {
+            channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+        }
     }
 
     @EventHandler
     fun onLeave(event: PlayerQuitEvent) {
+        if (!plugin.config.getBoolean("accessEnable")) return
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("leaveFormat")?:
             "**<player>**님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
-        channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+
+        if (plugin.config.getBoolean("leaveEmbed")) {
+            val title: String? = plugin.config.getString("leaveEmbedTitle")
+            val description: String = replaceAccessFormat(event, format)
+            val color: Int = plugin.config.getInt("leaveEmbedColor")
+            val builder = EmbedBuilder().setDescription(description)
+                .setColor(color)
+
+            if (!(title == null || title == "")) {
+                builder.setTitle(title)
+            }
+
+            val embed: MessageEmbed = builder.build()
+            channel?.sendMessage(embed)?.queue()
+        } else {
+            channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+        }
     }
 
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         if (event.entityType != EntityType.PLAYER) return
+        if (!plugin.config.getBoolean("deathEnable")) return
 
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("deathFormat")?:
             "**<player>님이 사망 하셨습니다.**"
-        channel?.sendMessage(replaceDeathFormat(event, format))?.queue()
+
+        if (plugin.config.getBoolean("deathEmbed")) {
+            val title: String? = plugin.config.getString("deathEmbedTitle")
+            val description: String = replaceDeathFormat(event, format)
+            val color: Int = plugin.config.getInt("deathEmbedColor")
+            val builder = EmbedBuilder().setDescription(description)
+                .setColor(color)
+
+            if (!(title == null || title == "")) {
+                builder.setTitle(title)
+            }
+
+            val embed: MessageEmbed = builder.build()
+            channel?.sendMessage(embed)?.queue()
+        } else {
+            channel?.sendMessage(replaceDeathFormat(event, format))?.queue()
+        }
     }
 
     @EventHandler
     fun onPlayerKick(event: PlayerKickEvent) {
+        if (!plugin.config.getBoolean("kickEnable")) return
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("kickFormat")?:
-            "**<player>님이 추방 하셨습니다.**"
-        channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+            "**<player>님이 추방 되었습니다.**"
+
+        if (plugin.config.getBoolean("deathEmbed")) {
+            val title: String? = plugin.config.getString("kickEmbedTitle")
+            val description: String = replaceAccessFormat(event, format)
+            val color: Int = plugin.config.getInt("kickEmbedColor")
+            val builder = EmbedBuilder().setDescription(description)
+                .setColor(color)
+
+            if (!(title == null || title == "")) {
+                builder.setTitle(title)
+            }
+
+            val embed: MessageEmbed = builder.build()
+            channel?.sendMessage(embed)?.queue()
+        } else {
+            channel?.sendMessage(replaceAccessFormat(event, format))?.queue()
+        }
+    }
+
+    @EventHandler
+    fun onPlayerAdvancement(event: PlayerAdvancementDoneEvent) {
+        if (!plugin.config.getBoolean("advancementEnable")) return
+        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val format: String = plugin.config.getString("advancementFormat")?:
+            "**<player>님이 <advancement>를 클리어 하였습니다..**"
+
+        if (plugin.config.getBoolean("deathEmbed")) {
+            val title: String? = plugin.config.getString("advancementEmbedTitle")
+            val description: String = replaceAdvancementFormat(event, format)
+            val color: Int = plugin.config.getInt("advancementEmbedColor")
+            val builder = EmbedBuilder().setDescription(description)
+                .setColor(color)
+
+            if (!(title == null || title == "")) {
+                builder.setTitle(title)
+            }
+
+            val embed: MessageEmbed = builder.build()
+            channel?.sendMessage(embed)?.queue()
+        } else {
+            channel?.sendMessage(replaceAdvancementFormat(event, format))?.queue()
+        }
     }
 }
