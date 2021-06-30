@@ -24,9 +24,9 @@ class ServerCommand(private val plugin: WildDiscord): CommandExecutor, TabComple
                     }
 
                     "channel" -> {
-                        val channel = Integer.parseInt(args[1])
+                        val channel = args[1]
                         val array = WildDiscord.channelId.add(channel)
-                        plugin.config["channelId"] = array
+                        plugin.config.set("[channelId]", array)
 
                         sender.sendMessage("[Discord] $channel is successful added!")
 
