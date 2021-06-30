@@ -46,6 +46,7 @@ class ServerCommand(private val plugin: WildDiscord): CommandExecutor, TabComple
 
             if (args.size == 1) {
                 commandList.add("activity")
+                commandList.add("channel")
                 return commandList
             }
         }
