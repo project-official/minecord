@@ -17,6 +17,7 @@ class WildDiscord : JavaPlugin(), Listener {
         var instance: WildDiscord? = null
 
         var serverAddress: String? = null
+        var channelId: ArrayList<Int> = arrayListOf()
     }
 
     override fun onEnable() {
