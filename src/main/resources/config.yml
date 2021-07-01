@@ -1,7 +1,7 @@
 token: "" # The discord bot token
-channelId: [""] # The id of main channel
+channelId: "" # The id of main channel
 
-messageFormat: "<sender>: <message>" # EX) <red><sender><reset> : <message>
+messageFormat: "<<purple><sender><reset>> <message>" # EX) <red><sender><reset> : <message>
 customColor: false
 supportMarkdown: true
 

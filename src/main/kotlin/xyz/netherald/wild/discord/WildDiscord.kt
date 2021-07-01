@@ -7,7 +7,6 @@ import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import xyz.netherald.wild.discord.listeners.DiscordListener
-import xyz.netherald.wild.discord.listeners.SleepIndicator
 
 class WildDiscord : JavaPlugin(), Listener {
 
@@ -46,7 +45,6 @@ class WildDiscord : JavaPlugin(), Listener {
 
         server.pluginManager.apply {
             registerEvents(DiscordListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(SleepIndicator(this@WildDiscord), this@WildDiscord)
         }
 
         Bukkit.getScheduler().runTaskLater(this, Runnable {
