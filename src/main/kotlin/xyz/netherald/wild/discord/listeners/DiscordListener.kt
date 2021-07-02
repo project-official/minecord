@@ -1,6 +1,5 @@
 package xyz.netherald.wild.discord.listeners
 
-import io.papermc.paper.event.player.AsyncChatEvent
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -8,13 +7,7 @@ import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
-import org.bukkit.entity.Player
-import org.bukkit.event.Listener
-import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.player.*
 import xyz.netherald.wild.discord.WildDiscord
 import xyz.netherald.wild.discord.utils.FormatModule
 
