@@ -7,21 +7,18 @@ import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
-import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.*
 import xyz.netherald.wild.discord.WildDiscord
 
-
-@Suppress("DEPRECATION")
-class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener {
-    val listColor: List<String> = listOf(
+class DiscordListener(private val plugin: WildDiscord) : EventListener {
+    private val listColor: List<String> = listOf(
         "<black>", "<dark_blue>", "<dark_green>", "<dark_aqua>", "<red>",
         "<dark_purple>", "<gold>", "<gray>", "<dark_gray>", "<blue>", "<green>", "<aqua>", "<purple>", "<yellow>",
         "<white>"
@@ -57,10 +54,10 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
         Markdown: Boolean,
         CustomColor: Boolean
     ): String {
-        val customColor_message: String
+        val customColorMessage: String
 
         val s: String = replaceChatColor(formatter)
-        var markdown_message = ""
+        var markdownMessage = ""
 
         val stringMessage: String = event.message.contentRaw
 
@@ -73,7 +70,7 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
 
             var index = 0
             while (index <= stringMessage.length - 1) {
-                val value: String = stringMessage.slice(index..stringMessage.length - 1)
+                val value: String = stringMessage.slice(index until stringMessage.length)
                 var alreadyColor = false
 
                 if (CustomColor) {
@@ -81,7 +78,7 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                         if (value.startsWith(color)) {
                             setColor = color
 
-                            markdown_message += color
+                            markdownMessage += color
                             index += color.length
                             alreadyColor = true
                             break
@@ -92,111 +89,115 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                 if (value.startsWith("**")) {
                     if (setBold) {
                         setBold = false
-                        markdown_message += "${ChatColor.RESET}"
+                        markdownMessage += "${ChatColor.RESET}"
                         if (CustomColor && setColor != null) {
-                            markdown_message += setColor
+                            markdownMessage += setColor
                             index += setColor.length
                         }
                     } else {
                         setBold = true
-                        markdown_message += "${ChatColor.BOLD}"
+                        markdownMessage += "${ChatColor.BOLD}"
                     }
                     index += 2
                 } else if (value.startsWith("*")) {
                     if (setItalic) {
                         setItalic = false
-                        markdown_message += "${ChatColor.RESET}"
+                        markdownMessage += "${ChatColor.RESET}"
                         if (CustomColor && setColor != null) {
-                            markdown_message += setColor
+                            markdownMessage += setColor
                             index += setColor.length
                         }
                     } else {
                         setItalic = true
-                        markdown_message += "${ChatColor.ITALIC}"
+                        markdownMessage += "${ChatColor.ITALIC}"
                     }
                     index += 1
                 } else if (value.startsWith("~~")) {
                     if (setStrikethrough) {
                         setStrikethrough = false
-                        markdown_message += "${ChatColor.RESET}"
+                        markdownMessage += "${ChatColor.RESET}"
                         if (CustomColor && setColor != null) {
-                            markdown_message += setColor
+                            markdownMessage += setColor
                             index += setColor.length
                         }
                     } else {
                         setStrikethrough = true
-                        markdown_message += "${ChatColor.STRIKETHROUGH}"
+                        markdownMessage += "${ChatColor.STRIKETHROUGH}"
                     }
                     index += 2
                 } else if (value.startsWith("__")) {
                     if (setUnderline) {
                         setUnderline = false
-                        markdown_message += "${ChatColor.RESET}"
+                        markdownMessage += "${ChatColor.RESET}"
                         if (CustomColor && setColor != null) {
-                            markdown_message += setColor
+                            markdownMessage += setColor
                             index += setColor.length
                         }
                     } else {
                         setUnderline = true
-                        markdown_message += "${ChatColor.UNDERLINE}"
+                        markdownMessage += "${ChatColor.UNDERLINE}"
                     }
                     index += 2
                 } else {
                     if (!alreadyColor) {
                         index += 1
-                        markdown_message += value[0]
+                        markdownMessage += value[0]
                     }
                 }
             }
         } else {
-            markdown_message = stringMessage
+            markdownMessage = stringMessage
         }
 
-        if (CustomColor) {
-            customColor_message = replaceChatColor(markdown_message)
+        customColorMessage = if (CustomColor) {
+            replaceChatColor(markdownMessage)
         } else {
-            customColor_message = markdown_message
+            markdownMessage
         }
 
-        return s.replace("<message>", customColor_message)
+        return s.replace("<message>", customColorMessage)
             .replace("<sender>", event.author.asTag)
             .replace("<mention>", event.author.asMention)
     }
 
-    private fun replacePlayer(player: Player, formatter: String): String {
-        return formatter.replace("<player>", player.name)
-            .replace("<address>", player.address.address.hostAddress)
-            .replace("<exp>", "${player.exp}")
-            .replace("<level>", "${player.level}")
-    }
+    companion object {
 
-    private fun replaceMsgFormat(event: AsyncChatEvent, formatter: String): String {
-        val player: String = replacePlayer(event.player, formatter)
-        val message: String = (event.message() as TextComponent).content()
-        return player.replace("<message>", message)
-    }
-
-    private fun replaceAccessFormat(event: PlayerEvent, formatter: String, leave: Boolean): String {
-        val player: String = replacePlayer(event.player, formatter)
-        return if (!leave) {
-            player.replace("<online>", "${Bukkit.getOnlinePlayers().size}")
-                .replace("<max>", "${Bukkit.getMaxPlayers()}")
-        } else {
-            player.replace("<online>", "${Bukkit.getOnlinePlayers().size - 1}")
-                .replace("<max>", "${Bukkit.getMaxPlayers()}")
+        private fun replacePlayer(player: Player, formatter: String): String {
+            return formatter.replace("<player>", player.name)
+                .replace("<address>", player.address.address.hostAddress)
+                .replace("<exp>", "${player.exp}")
+                .replace("<level>", "${player.level}")
         }
-    }
 
-    private fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
-        val player: String = replacePlayer(event.entity.player!!, formatter)
-        return player.replace("<message>", "${event.deathMessage}")
-    }
+        fun replaceMsgFormat(event: AsyncChatEvent, formatter: String): String {
+            val player: String = replacePlayer(event.player, formatter)
+            val message: String = (event.message() as TextComponent).content()
+            return player.replace("<message>", message)
+        }
 
-    private fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
-        val player: String = replacePlayer(event.player, formatter)
+        fun replaceAccessFormat(event: PlayerEvent, formatter: String, leave: Boolean): String {
+            val player: String = replacePlayer(event.player, formatter)
+            return if (!leave) {
+                player.replace("<online>", "${Bukkit.getOnlinePlayers().size}")
+                    .replace("<max>", "${Bukkit.getMaxPlayers()}")
+            } else {
+                player.replace("<online>", "${Bukkit.getOnlinePlayers().size - 1}")
+                    .replace("<max>", "${Bukkit.getMaxPlayers()}")
+            }
+        }
 
-        val advancement: String = event.advancement.key.key
-        return player.replace("<advancement>", advancement.replace("adventure/", ""))
+        fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
+            val player: String = replacePlayer(event.entity.player!!, formatter)
+            return player.replace("<message>", "${event.deathMessage()}")
+
+        }
+
+        fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
+            val player: String = replacePlayer(event.player, formatter)
+
+            val advancement: String = event.advancement.key.key
+            return player.replace("<advancement>", advancement.replace("adventure/", ""))
+        }
     }
 
     override fun onEvent(event: GenericEvent) {
@@ -237,7 +238,7 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                                 var memberStr = "```\n"
                                 if (Bukkit.getOnlinePlayers().isNotEmpty()) {
                                     for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
-                                        memberStr += "${i+1} 번째: ${player.name}\n"
+                                        memberStr += "${i + 1} 번째: ${player.name}\n"
                                     }
                                 } else {
                                     memberStr += "${noMember ?: "사람이 없습니다."}\n"
@@ -255,146 +256,10 @@ class DiscordListener(private val plugin: WildDiscord) : EventListener, Listener
                                 plugin.config.getString("messageFormat") ?: "<<dark_purple><sender><reset>> <message>"
                             val customColor: Boolean = plugin.config.getBoolean("customColor")
                             val supportMarkdown: Boolean = plugin.config.getBoolean("customColor")
-                            Bukkit.broadcastMessage(replaceChatFormat(event, format, supportMarkdown, customColor))
+                            Bukkit.broadcast(Component.text(replaceChatFormat(event, format, supportMarkdown, customColor)))
                         }
                 }
             }
         }
     }
-
-    @EventHandler
-    fun onChat(event: AsyncChatEvent) {
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("chatFormat") ?: "**<player>**: <message>"
-        channel?.sendMessage(replaceMsgFormat(event, format))?.queue()
-    }
-
-    @EventHandler
-    fun onJoin(event: PlayerJoinEvent) {
-        if (!plugin.config.getBoolean("accessEnable")) return
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("joinFormat")?:
-            "**<player>**님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
-
-        if (plugin.config.getBoolean("joinEmbed")) {
-            val title: String? = plugin.config.getString("joinEmbedTitle")
-            val description: String = replaceAccessFormat(event, format, false)
-            val color: Int = plugin.config.getInt("joinEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-
-            if (!(title == null || title == "")) {
-                builder.setTitle(title)
-            }
-
-            val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
-        } else {
-            channel?.sendMessage(replaceAccessFormat(event, format, false))?.queue()
-        }
-    }
-
-    @EventHandler
-    fun onLeave(event: PlayerQuitEvent) {
-        if (!plugin.config.getBoolean("accessEnable")) return
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("leaveFormat")?:
-            "**<player>**님이 게임에서 나갔습니다. 현재 플레이어 수: <online_leave>/<max_leave>명"
-
-        if (plugin.config.getBoolean("leaveEmbed")) {
-            val title: String? = plugin.config.getString("leaveEmbedTitle")
-            val description: String = replaceAccessFormat(event, format, true)
-            val color: Int = plugin.config.getInt("leaveEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-
-            if (!(title == null || title == "")) {
-                builder.setTitle(title)
-            }
-
-            val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
-        } else {
-            channel?.sendMessage(replaceAccessFormat(event, format, true))?.queue()
-        }
-    }
-
-    @EventHandler
-    fun onPlayerDeath(event: PlayerDeathEvent) {
-        if (event.entityType != EntityType.PLAYER) return
-        if (!plugin.config.getBoolean("deathEnable")) return
-
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("deathFormat")?:
-            "**<player>님이 사망 하셨습니다.**"
-
-        if (plugin.config.getBoolean("deathEmbed")) {
-            val title: String? = plugin.config.getString("deathEmbedTitle")
-            val description: String = replaceDeathFormat(event, format)
-            val color: Int = plugin.config.getInt("deathEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-
-            if (!(title == null || title == "")) {
-                builder.setTitle(title)
-            }
-
-            val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
-        } else {
-            channel?.sendMessage(replaceDeathFormat(event, format))?.queue()
-        }
-    }
-
-    @EventHandler
-    fun onPlayerKick(event: PlayerKickEvent) {
-        if (!plugin.config.getBoolean("kickEnable")) return
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("kickFormat")?:
-            "**<player>님이 추방 되었습니다.**"
-
-        if (plugin.config.getBoolean("deathEmbed")) {
-            val title: String? = plugin.config.getString("kickEmbedTitle")
-            val description: String = replaceAccessFormat(event, format, true)
-            val color: Int = plugin.config.getInt("kickEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-
-            if (!(title == null || title == "")) {
-                builder.setTitle(title)
-            }
-
-            val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
-        } else {
-            channel?.sendMessage(replaceAccessFormat(event, format, true))?.queue()
-        }
-    }
-
-    /*
-    @EventHandler
-    fun onPlayerAdvancement(event: PlayerAdvancementDoneEvent) {
-        if (!plugin.config.getBoolean("advancementEnable")) return
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("advancementFormat")?:
-            "**<player>님이 <advancement>를 클리어 하였습니다..**"
-
-        if (plugin.config.getBoolean("advancementEmbed")) {
-            val title: String? = plugin.config.getString("advancementEmbedTitle")
-            val description: String = replaceAdvancementFormat(event, format)
-            val color: Int = plugin.config.getInt("advancementEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-
-            if (!(title == null || title == "")) {
-                builder.setTitle(title)
-            }
-
-            val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
-        } else {
-            channel?.sendMessage(replaceAdvancementFormat(event, format))?.queue()
-        }
-    }
-     */
 }
