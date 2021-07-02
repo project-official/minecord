@@ -1,6 +1,9 @@
 token: "" # The discord bot token
 channelId: "" # The id of main channel
 
+show_activity: true
+server_address: ""
+
 messageFormat: "<<purple><sender><reset>> <message>" # EX) <red><sender><reset> : <message>
 customColor: false
 supportMarkdown: true

@@ -15,8 +15,7 @@ class WildDiscord : JavaPlugin(), Listener {
         var init = false
         var instance: WildDiscord? = null
 
-        var serverAddress: String? = null
-        var channelId: ArrayList<String> = arrayListOf()
+        var serverAddress: String? = instance?.config?.getString("server_address")
     }
 
     override fun onEnable() {
@@ -27,8 +26,11 @@ class WildDiscord : JavaPlugin(), Listener {
         }
 
         val builder = JDABuilder.createDefault(this.config.getString("token"))
-            .setActivity(Activity.playing("Minecraft : $serverAddress"))
             .addEventListeners(DiscordListener(this))
+
+        if (this.config.getBoolean("show_activity")) {
+            builder.setActivity(Activity.playing("Minecraft : $serverAddress"))
+        }
 
         jda = builder.build()
 
@@ -37,11 +39,6 @@ class WildDiscord : JavaPlugin(), Listener {
         Bukkit.getLogger().info("Wild - Minecraft listener registered!")
         init = true
         Bukkit.getLogger().info("Wild - Discord Plugin load done.")
-
-        getCommand("discord")?.apply {
-            setExecutor(ServerCommand(this@WildDiscord))
-            tabCompleter = ServerCommand(this@WildDiscord)
-        }
 
         server.pluginManager.apply {
             registerEvents(DiscordListener(this@WildDiscord), this@WildDiscord)
@@ -69,13 +66,5 @@ class WildDiscord : JavaPlugin(), Listener {
         val channel = jda?.getTextChannelById(config.getString("channelId")!!)
         val message: String = config.getString("stopMessage")?: "**서버가 종료 되었습니다.** :stop_sign:"
         channel?.sendMessage(message)?.queue()
-    }
-
-    fun address(saveMode: Boolean): String {
-        if (saveMode) {
-            config.set("address", serverAddress)
-        }
-
-        return serverAddress!!
     }
 }

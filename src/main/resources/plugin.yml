@@ -2,7 +2,3 @@ name: ${project.name}
 version: ${project.version}
 api-version: 1.16
 main: xyz.netherald.wild.discord.WildDiscord
-
-commands:
-  discord:
-    usage: /discord activity [address]
