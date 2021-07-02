@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Activity
 import org.bukkit.Bukkit
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
-import xyz.netherald.wild.discord.listeners.DiscordListener
+import xyz.netherald.wild.discord.listeners.*
 
 class WildDiscord : JavaPlugin(), Listener {
 
@@ -41,7 +41,10 @@ class WildDiscord : JavaPlugin(), Listener {
         Bukkit.getLogger().info("Wild - Discord Plugin load done.")
 
         server.pluginManager.apply {
-            registerEvents(DiscordListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(AsyncChatListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(DeathListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(JoinQuitListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(KickListener(this@WildDiscord), this@WildDiscord)
         }
 
         Bukkit.getScheduler().runTaskLater(this, Runnable {
