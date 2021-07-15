@@ -12,38 +12,6 @@ import xyz.netherald.wild.discord.WildDiscord
 
 class GameRuleSetting: ListenerAdapter(), CommandExecutor {
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        if (sender.isOp) {
-            if (command.name == "d_gamerule") {
-                when (args[0]) {
-                    "keepInventory" -> {
-                        when (args[1]) {
-                            "true" -> {
-                                for (world in Bukkit.getWorlds()) {
-                                    world.setGameRule(GameRule.KEEP_INVENTORY, true)
-                                }
-
-                                sender.sendMessage("Gamerule has successful updated: true")
-                                return true
-                            }
-
-                            "false" -> {
-                                for (world in Bukkit.getWorlds()) {
-                                    world.setGameRule(GameRule.KEEP_INVENTORY, true)
-                                }
-
-                                sender.sendMessage("Gamerule has successful updated: false")
-                                return true
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false
-    }
-
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (!event.user.isBot) {
             return
@@ -74,9 +42,16 @@ class GameRuleSetting: ListenerAdapter(), CommandExecutor {
     }
 
     private fun keepInventory(event: SlashCommandEvent, rule: Boolean) {
-        for (world in Bukkit.getWorlds()) {
-            world.setGameRule(GameRule.KEEP_INVENTORY, rule)
-            println(rule) // Debug Code
+        if (rule) {
+            for (world in Bukkit.getWorlds()) {
+                world.setGameRule(GameRule.KEEP_INVENTORY, true)
+                println(rule) // Debug Code
+            }
+        } else {
+            for (world in Bukkit.getWorlds()) {
+                world.setGameRule(GameRule.KEEP_INVENTORY, false)
+                println(rule) // Debug Code
+            }
         }
 
         val embed = EmbedBuilder()
@@ -88,9 +63,16 @@ class GameRuleSetting: ListenerAdapter(), CommandExecutor {
     }
 
     private fun mobGriefing(event: SlashCommandEvent, rule: Boolean) {
-        for (world in Bukkit.getWorlds()) {
-            world.setGameRule(GameRule.MOB_GRIEFING, rule)
-            println(rule) // Debug Code
+        if (rule) {
+            for (world in Bukkit.getWorlds()) {
+                world.setGameRule(GameRule.MOB_GRIEFING, true)
+                println(rule) // Debug Code
+            }
+        } else {
+            for (world in Bukkit.getWorlds()) {
+                world.setGameRule(GameRule.MOB_GRIEFING, false)
+                println(rule) // Debug Code
+            }
         }
 
         val embed = EmbedBuilder()
@@ -99,5 +81,59 @@ class GameRuleSetting: ListenerAdapter(), CommandExecutor {
             .setFooter("${event.user.name}#${event.user.discriminator}", event.user.avatarUrl)
 
         event.replyEmbeds(embed.build()).queue()
+    }
+
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if (sender.isOp) {
+            if (command.name == "d_gamerule") {
+                when (args[0]) {
+                    "keepInventory" -> {
+                        when (args[1]) {
+                            "true" -> {
+                                for (world in Bukkit.getWorlds()) {
+                                    world.setGameRule(GameRule.KEEP_INVENTORY, true)
+                                }
+
+                                sender.sendMessage("Gamerule has successful updated: true")
+                                return true
+                            }
+
+                            "false" -> {
+                                for (world in Bukkit.getWorlds()) {
+                                    world.setGameRule(GameRule.KEEP_INVENTORY, false)
+                                }
+
+                                sender.sendMessage("Gamerule has successful updated: false")
+                                return true
+                            }
+                        }
+                    }
+
+                    "mobGrief" -> {
+                        when (args[1]) {
+                            "true" -> {
+                                for (world in Bukkit.getWorlds()) {
+                                    world.setGameRule(GameRule.MOB_GRIEFING, true)
+                                }
+
+                                sender.sendMessage("Gamerule has successful updated: true")
+                                return true
+                            }
+
+                            "false" -> {
+                                for (world in Bukkit.getWorlds()) {
+                                    world.setGameRule(GameRule.MOB_GRIEFING, false)
+                                }
+
+                                sender.sendMessage("Gamerule has successful updated: false")
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return false
     }
 }

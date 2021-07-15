@@ -4,9 +4,12 @@ import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.bukkit.command.Command
+import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
 import xyz.netherald.wild.discord.WildDiscord
 
-class SetOp(private val plugin: WildDiscord): ListenerAdapter() {
+class SetOp(private val plugin: WildDiscord): ListenerAdapter(), CommandExecutor {
 
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (event.user.isBot) {
@@ -64,5 +67,37 @@ class SetOp(private val plugin: WildDiscord): ListenerAdapter() {
 
         WildDiscord.opId.remove(user.id)
         plugin.config.set("opID", WildDiscord.opId)
+    }
+
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if (sender.isOp) {
+            when (command.name) {
+                "d_op" -> {
+                    val id = args[0]
+                    if (!WildDiscord.opId.contains(id)) {
+                        WildDiscord.opId.add(id)
+
+                        plugin.config.set("opID", WildDiscord.opId)
+                        sender.sendMessage("$id is added!")
+                    }
+
+                    return true
+                }
+
+                "d_deop" -> {
+                    val id = args[0]
+                    if (WildDiscord.opId.contains(id)) {
+                        WildDiscord.opId.remove(id)
+
+                        plugin.config.set("opID", WildDiscord.opId)
+                        sender.sendMessage("$id is removed!")
+                    }
+
+                    return true
+                }
+            }
+        }
+
+        return false
     }
 }

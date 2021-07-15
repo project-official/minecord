@@ -70,8 +70,8 @@ class WildDiscord : JavaPlugin() {
     }
 
     private fun loadCommand() {
-        getCommand("d_op")?.setExecutor(OpAddCommand(this))
-        getCommand("d_deop")?.setExecutor(OpAddCommand(this))
+        getCommand("d_op")?.setExecutor(SetOp(this))
+        getCommand("d_deop")?.setExecutor(SetOp(this))
         getCommand("d_gamerule")?.setExecutor(GameRuleSetting())
     }
 
