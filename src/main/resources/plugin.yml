@@ -1,4 +1,5 @@
-name: ${project.name}
-version: ${project.version}
-api-version: 1.16
+name: ${rootProject.name}
 main: xyz.netherald.wild.discord.WildDiscord
+version: ${rootProject.version}
+authors: ["myoung2", "namutree0345", "Project_TL"]
+apiVersion: 1.17

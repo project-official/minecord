@@ -18,8 +18,7 @@ class DeathListener(private val plugin: WildDiscord): Listener {
         val formatModule = FormatModule()
 
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
-        val format: String = plugin.config.getString("deathFormat")?:
-        "**<player>님이 사망 하셨습니다.**"
+        val format: String = plugin.config.getString("deathFormat")?: "**<player>님이 사망 하셨습니다.**"
 
         if (plugin.config.getBoolean("deathEmbed")) {
             val title: String? = plugin.config.getString("deathEmbedTitle")

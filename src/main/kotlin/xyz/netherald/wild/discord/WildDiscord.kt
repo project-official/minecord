@@ -3,43 +3,44 @@ package xyz.netherald.wild.discord
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
-import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import xyz.netherald.wild.discord.commands.*
 import xyz.netherald.wild.discord.listeners.*
 
-class WildDiscord : JavaPlugin(), Listener {
+class WildDiscord : JavaPlugin() {
 
     companion object {
         var jda: JDA? = null
         var init = false
         var instance: WildDiscord? = null
-
-        var serverAddress: String? = instance?.config?.getString("server_address")
     }
 
-    override fun onEnable() {
-        instance = this
-        if (!dataFolder.exists()) {
-            this.saveDefaultConfig()
-            Bukkit.getLogger().info("Wild - Initialized configuration!")
+    private fun loadJDAModule() {
+        val builder = JDABuilder.createDefault(this.config.getString("token")).apply {
+            addEventListeners(OnlineCommand(this@WildDiscord))
+            addEventListeners(SendChatListener(this@WildDiscord))
+            addEventListeners(PingPong())
         }
 
-        val builder = JDABuilder.createDefault(this.config.getString("token"))
-            .addEventListeners(DiscordListener(this))
-
         if (this.config.getBoolean("show_activity")) {
-            builder.setActivity(Activity.playing("Minecraft : $serverAddress"))
+            builder.setActivity(Activity.playing("Minecraft : ${config.getString("server_address")}"))
         }
 
         jda = builder.build()
+        val commands = jda?.updateCommands()
 
-        Bukkit.getLogger().info("Wild - Discord module enabled!")
-        server.pluginManager.registerEvents(this, this)
-        Bukkit.getLogger().info("Wild - Minecraft listener registered!")
-        init = true
-        Bukkit.getLogger().info("Wild - Discord Plugin load done.")
+        commands?.apply {
+            addCommands(CommandData("online", "You can see online player!"))
+            addCommands(CommandData("ping", "You can pingpong with my bot"))
+            addCommands(CommandData("pong", "You can pingpong with my bot"))
+        }?.queue()
 
+        logger.info("Wild - Discord module enabled!")
+    }
+
+    private fun loadEventListener() {
         server.pluginManager.apply {
             registerEvents(AsyncChatListener(this@WildDiscord), this@WildDiscord)
             registerEvents(DeathListener(this@WildDiscord), this@WildDiscord)
@@ -47,6 +48,26 @@ class WildDiscord : JavaPlugin(), Listener {
             registerEvents(KickListener(this@WildDiscord), this@WildDiscord)
         }
 
+        logger.info("Wild - Minecraft listener registered!")
+    }
+
+    /*
+    private fun loadCommand() {
+    }
+     */
+
+    override fun onEnable() {
+        instance = this
+        if (!dataFolder.exists()) {
+            this.saveDefaultConfig()
+            logger.info("Wild - Initialized configuration!")
+        }
+
+        loadJDAModule()
+        loadEventListener()
+        // loadCommand()
+
+        logger.info("Wild - Discord Plugin successful loaded.")
         Bukkit.getScheduler().runTaskLater(this, Runnable {
             startMessage()
         }, 20L)

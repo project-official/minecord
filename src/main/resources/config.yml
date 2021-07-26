@@ -4,7 +4,7 @@ channelId: "" # The id of main channel
 show_activity: true
 server_address: ""
 
-messageFormat: "<<purple><sender><reset>> <message>" # EX) <red><sender><reset> : <message>
+messageFormat: "<&d<sender>&r> <message>" # EX) &4<sender>&r : <message> // Follow to minecraft color code
 customColor: false
 supportMarkdown: true
 
@@ -18,8 +18,8 @@ embedField1: "인원:"
 embedField2: "목록:"
 
 # Formatter used to send from Minecraft Server to Discord
-startMessage: "**서버가 시작 되었습니다.** :white_check_mark:"
-stopMessage: "**서버가 종료 되었습니다.** :stop_sign:"
+startMessage: ":white_check_mark: **서버가 시작 되었습니다.**"
+stopMessage: ":stop_sign: **서버가 종료 되었습니다.**"
 
 chatFormat: "**<player>**: <message>"
 chatEmbedColor: 0x0070ff
