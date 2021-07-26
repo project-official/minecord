@@ -1,15 +1,15 @@
 package xyz.netherald.wild.discord.listeners
 
-import io.papermc.paper.event.player.AsyncChatEvent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import xyz.netherald.wild.discord.WildDiscord
 import xyz.netherald.wild.discord.utils.FormatModule
 
 class AsyncChatListener(private val plugin: WildDiscord): Listener {
 
     @EventHandler
-    fun onChat(event: AsyncChatEvent) {
+    fun onChat(event: AsyncPlayerChatEvent) {
         val formatModule = FormatModule()
         val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("chatFormat") ?: "**<player>**: <message>"

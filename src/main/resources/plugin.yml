@@ -1,17 +1,5 @@
-name: ${project.name}
-version: ${project.version}
-api-version: 1.16
+name: ${rootProject.name}
 main: xyz.netherald.wild.discord.WildDiscord
-
-commands:
-  d_op:
-    description: OP command
-    usage: /d_op <discord_id>
-
-  d_deop:
-    description: DEOP command
-    usage: /d_deop <discord_id>
-
-  d_gamerule:
-    description: GAMERULE command
-    usage: /d_gamerule <rule> <boolean>
+version: ${rootProject.version}
+authors: ["myoung2", "namutree0345", "Project_TL"]
+apiVersion: 1.17

@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
-import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import xyz.netherald.wild.discord.WildDiscord
 import xyz.netherald.wild.discord.utils.FormatModule
@@ -27,7 +26,7 @@ class SendChatListener(private val plugin: WildDiscord): EventListener {
                 val supportMarkdown: Boolean = plugin.config.getBoolean("customColor")
                 val formatModule = FormatModule()
 
-                Bukkit.broadcast(Component.text(formatModule.replaceChatFormat(event, format, supportMarkdown, customColor)))
+                Bukkit.broadcastMessage(formatModule.replaceChatFormat(event, format, supportMarkdown, customColor))
             }
         }
     }

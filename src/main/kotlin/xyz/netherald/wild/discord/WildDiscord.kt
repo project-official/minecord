@@ -3,9 +3,7 @@ package xyz.netherald.wild.discord
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
-import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
-import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import xyz.netherald.wild.discord.commands.*
@@ -17,16 +15,12 @@ class WildDiscord : JavaPlugin() {
         var jda: JDA? = null
         var init = false
         var instance: WildDiscord? = null
-
-        var opId: MutableList<String> = mutableListOf()
     }
 
     private fun loadJDAModule() {
         val builder = JDABuilder.createDefault(this.config.getString("token")).apply {
             addEventListeners(OnlineCommand(this@WildDiscord))
             addEventListeners(SendChatListener(this@WildDiscord))
-            addEventListeners(GameRuleSetting())
-            addEventListeners(SetOp(this@WildDiscord))
             addEventListeners(PingPong())
         }
 
@@ -38,22 +32,10 @@ class WildDiscord : JavaPlugin() {
         val commands = jda?.updateCommands()
 
         commands?.apply {
-            addCommands(CommandData("op", "Give minecraft server access!")
-                .addOptions(OptionData(OptionType.USER, "user", null.toString()).setRequired(true))).queue()
-
-            addCommands(CommandData("deop", "Give minecraft server access!")
-                .addOptions(OptionData(OptionType.USER, "user", null.toString()).setRequired(true))).queue()
-
-            addCommands(CommandData("rule", "You can set minecraft gamerule")
-                .addOptions(OptionData(OptionType.STRING, "gamerule_type", "select gamerule type").setRequired(true)
-                    .addChoice("keep_inventory", "inventory save")
-                    .addChoice("mob_griefing", "Entity griefing"))
-                .addOption(OptionType.BOOLEAN, "value", null.toString(), true)).queue()
-
-            addCommands(CommandData("online", "You can see online player!")).queue()
-            addCommands(CommandData("ping", "You can pingpong with my bot")).queue()
-            addCommands(CommandData("pong", "You can pingpong with my bot")).queue()
-        }
+            addCommands(CommandData("online", "You can see online player!"))
+            addCommands(CommandData("ping", "You can pingpong with my bot"))
+            addCommands(CommandData("pong", "You can pingpong with my bot"))
+        }?.queue()
 
         logger.info("Wild - Discord module enabled!")
     }
@@ -69,11 +51,10 @@ class WildDiscord : JavaPlugin() {
         logger.info("Wild - Minecraft listener registered!")
     }
 
+    /*
     private fun loadCommand() {
-        getCommand("d_op")?.setExecutor(SetOp(this))
-        getCommand("d_deop")?.setExecutor(SetOp(this))
-        getCommand("d_gamerule")?.setExecutor(GameRuleSetting())
     }
+     */
 
     override fun onEnable() {
         instance = this
@@ -84,7 +65,7 @@ class WildDiscord : JavaPlugin() {
 
         loadJDAModule()
         loadEventListener()
-        loadCommand()
+        // loadCommand()
 
         logger.info("Wild - Discord Plugin successful loaded.")
         Bukkit.getScheduler().runTaskLater(this, Runnable {

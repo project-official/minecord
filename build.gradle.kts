@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.5.20"
+    kotlin("jvm") version "1.5.21"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 
     `maven-publish`
@@ -10,30 +10,25 @@ version = "2.3.0"
 
 repositories {
     mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://m2.dv8tion.net/releases")
     maven("https://jitpack.io")
-
-    maven(url = "https://oss.sonatype.org/content/repositories/snapshots/") {
-        name = "sonatype-oss-snapshots"
-    }
 
     //maven("https://repo.dmulloy2.net/repository/public/")
 }
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.kyori:adventure-api:4.7.0")
-    compileOnly("com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT")
-
     implementation("net.dv8tion:JDA:4.3.0_277")
-    //compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
+    implementation("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
+    // compileOnly("com.comphenix.protocol:ProtocolLib:4.6.0")
 }
 /*
 spigot {
     authors = listOf("명이","나무트리","프로젝트")
-    apiVersion = "1.16"
-        //depends = listOf("ProtocolLib")
+    apiVersion = "1.17"
+    //depends = listOf("ProtocolLib")
+
     commands {
         //create("hello")
     }

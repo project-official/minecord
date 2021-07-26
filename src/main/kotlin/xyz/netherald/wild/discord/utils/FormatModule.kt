@@ -1,12 +1,11 @@
 package xyz.netherald.wild.discord.utils
 
-import io.papermc.paper.event.player.AsyncChatEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
-import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerEvent
 
@@ -156,14 +155,14 @@ class FormatModule {
 
     private fun replacePlayer(player: Player, formatter: String): String {
         return formatter.replace("<player>", player.name)
-            .replace("<address>", player.address.address.hostAddress)
+            .replace("<address>", player.address?.address!!.hostAddress)
             .replace("<exp>", "${player.exp}")
             .replace("<level>", "${player.level}")
     }
 
-    fun replaceMsgFormat(event: AsyncChatEvent, formatter: String): String {
+    fun replaceMsgFormat(event: AsyncPlayerChatEvent, formatter: String): String {
         val player: String = replacePlayer(event.player, formatter)
-        val message: String = (event.message() as TextComponent).content()
+        val message: String = event.message
         return player.replace("<message>", message)
     }
 
@@ -180,7 +179,7 @@ class FormatModule {
 
     fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
         val player: String = replacePlayer(event.entity.player!!, formatter)
-        return player.replace("<message>", "${event.deathMessage()}")
+        return player.replace("<message>", "${event.deathMessage}")
 
     }
 
