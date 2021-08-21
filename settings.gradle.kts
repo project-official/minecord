@@ -1,2 +1,2 @@
-rootProject.name = "wild-discordmc"
+rootProject.name = "minecord"
 

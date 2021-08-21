@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord
+package org.netherald.wild.discord
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -6,8 +6,9 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import xyz.netherald.wild.discord.commands.*
-import xyz.netherald.wild.discord.listeners.*
+import org.netherald.wild.discord.commands.OnlineCommand
+import org.netherald.wild.discord.commands.PingPong
+import org.netherald.wild.discord.listeners.*
 
 class WildDiscord : JavaPlugin() {
 

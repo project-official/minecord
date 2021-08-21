@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord.listeners
+package org.netherald.wild.discord.listeners
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.netherald.wild.discord.WildDiscord
+import org.netherald.wild.discord.utils.FormatModule
 
 class JoinQuitListener(private val plugin: WildDiscord): Listener {
 
@@ -25,6 +25,7 @@ class JoinQuitListener(private val plugin: WildDiscord): Listener {
             val color: Int = plugin.config.getInt("joinEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
+                .setAuthor(null, null, "https://crafatar.com/avatars/${event.player.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)
@@ -51,6 +52,7 @@ class JoinQuitListener(private val plugin: WildDiscord): Listener {
             val color: Int = plugin.config.getInt("leaveEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
+                .setAuthor(null, null, "https://crafatar.com/avatars/${event.player.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)

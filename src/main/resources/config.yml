@@ -4,7 +4,7 @@ channelId: "" # The id of main channel
 show_activity: true
 server_address: ""
 
-messageFormat: "<&d<sender>&r> <message>" # EX) &4<sender>&r : <message> // Follow to minecraft color code
+messageFormat: "<<light_purple><sender><reset>> <message>" # EX) <light_purple><sender><reset> : <message>
 customColor: false
 supportMarkdown: true
 

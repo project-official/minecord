@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord.utils
+package org.netherald.wild.discord.utils
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.bukkit.Bukkit
@@ -12,33 +12,53 @@ import org.bukkit.event.player.PlayerEvent
 class FormatModule {
 
     private val listColor: List<String> = listOf(
-        "&0", "&1", "&2", "&3", "&4", "&5", "&6", "&7", "&8", "&9", "&a", "&b", "&c", "&d", "&e", "&f",
-        "&k", "&l", "&m", "&n", "&o", "&r"
+        "<black>",
+        "<blue>",
+        "<dark_green>",
+        "<dark_aqua>",
+        "<dark_red>",
+        "<dark_purple>",
+        "<gold>",
+        "<gray>",
+        "<dark_gray>",
+        "<blue>",
+        "<green>",
+        "<aqua>",
+        "<red>",
+        "<light_purple>",
+        "<yellow>",
+        "<white>",
+        "<magic>",
+        "<bold>",
+        "<strike_through>",
+        "<under_line>",
+        "<italic>",
+        "<reset>"
     )
 
     private fun replaceChatColor(message: String): String {
-        return message.replace("&0", "${ChatColor.BLACK}")
-            .replace("&1", "${ChatColor.DARK_BLUE}")
-            .replace("&2", "${ChatColor.DARK_GREEN}")
-            .replace("&3", "${ChatColor.DARK_AQUA}")
-            .replace("&4", "${ChatColor.DARK_RED}")
-            .replace("&5", "${ChatColor.DARK_PURPLE}")
-            .replace("&6", "${ChatColor.GOLD}")
-            .replace("&7", "${ChatColor.GRAY}")
-            .replace("&8", "${ChatColor.DARK_GRAY}")
-            .replace("&9", "${ChatColor.BLUE}")
-            .replace("&a", "${ChatColor.GREEN}")
-            .replace("&b", "${ChatColor.AQUA}")
-            .replace("&c", "${ChatColor.RED}")
-            .replace("&d", "${ChatColor.LIGHT_PURPLE}")
-            .replace("&e", "${ChatColor.YELLOW}")
-            .replace("&f", "${ChatColor.WHITE}")
-            .replace("&k", "${ChatColor.MAGIC}")
-            .replace("&l", "${ChatColor.BOLD}")
-            .replace("&m", "${ChatColor.STRIKETHROUGH}")
-            .replace("&n", "${ChatColor.UNDERLINE}")
-            .replace("&o", "${ChatColor.ITALIC}")
-            .replace("&r", "${ChatColor.RESET}")
+        return message.replace("<black>", "${ChatColor.BLACK}")
+            .replace("<blue>", "${ChatColor.DARK_BLUE}")
+            .replace("<dark_green>", "${ChatColor.DARK_GREEN}")
+            .replace("<dark_aqua>", "${ChatColor.DARK_AQUA}")
+            .replace("<dark_red>", "${ChatColor.DARK_RED}")
+            .replace("<dark_purple>", "${ChatColor.DARK_PURPLE}")
+            .replace("<gold>", "${ChatColor.GOLD}")
+            .replace("<gray>", "${ChatColor.GRAY}")
+            .replace("<dark_gray>", "${ChatColor.DARK_GRAY}")
+            .replace("<blue>", "${ChatColor.BLUE}")
+            .replace("<green>", "${ChatColor.GREEN}")
+            .replace("<aqua>", "${ChatColor.AQUA}")
+            .replace("<red>", "${ChatColor.RED}")
+            .replace("<light_purple>", "${ChatColor.LIGHT_PURPLE}")
+            .replace("<yellow>", "${ChatColor.YELLOW}")
+            .replace("<white>", "${ChatColor.WHITE}")
+            .replace("<magic>", "${ChatColor.MAGIC}")
+            .replace("<bold>", "${ChatColor.BOLD}")
+            .replace("<strike_through>", "${ChatColor.STRIKETHROUGH}")
+            .replace("<under_line>", "${ChatColor.UNDERLINE}")
+            .replace("<italic>", "${ChatColor.ITALIC}")
+            .replace("<reset>", "${ChatColor.RESET}")
     }
 
     fun replaceChatFormat(

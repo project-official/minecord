@@ -5,8 +5,8 @@ plugins {
     `maven-publish`
 }
 
-group = "xyz.netherald"
-version = "3.0.0"
+group = "org.netherald"
+version = "3.0.1"
 
 repositories {
     mavenCentral()

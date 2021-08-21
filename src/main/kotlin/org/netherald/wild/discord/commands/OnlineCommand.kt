@@ -1,11 +1,11 @@
-package xyz.netherald.wild.discord.commands
+package org.netherald.wild.discord.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.bukkit.Bukkit
-import xyz.netherald.wild.discord.WildDiscord
+import org.netherald.wild.discord.WildDiscord
 
 class OnlineCommand(private val plugin: WildDiscord) : ListenerAdapter() {
 

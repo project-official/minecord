@@ -1,12 +1,12 @@
-package xyz.netherald.wild.discord.listeners
+package org.netherald.wild.discord.listeners
 
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
 import org.bukkit.Bukkit
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.netherald.wild.discord.WildDiscord
+import org.netherald.wild.discord.utils.FormatModule
 
 class SendChatListener(private val plugin: WildDiscord): EventListener {
 

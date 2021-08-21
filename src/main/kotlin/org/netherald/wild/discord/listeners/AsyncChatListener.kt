@@ -1,10 +1,10 @@
-package xyz.netherald.wild.discord.listeners
+package org.netherald.wild.discord.listeners
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.netherald.wild.discord.WildDiscord
+import org.netherald.wild.discord.utils.FormatModule
 
 class AsyncChatListener(private val plugin: WildDiscord): Listener {
 
