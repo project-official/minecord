@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord.listeners
+package org.proper.minecord.listeners
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -6,16 +6,16 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.proper.minecord.Minecord
+import org.proper.minecord.utils.FormatModule
 
-class JoinQuitListener(private val plugin: WildDiscord): Listener {
+class JoinQuitListener(private val plugin: Minecord): Listener {
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         if (!plugin.config.getBoolean("accessEnable")) return
         val formatModule = FormatModule()
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("joinFormat")?:
         "**<player>**님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
 
@@ -25,6 +25,7 @@ class JoinQuitListener(private val plugin: WildDiscord): Listener {
             val color: Int = plugin.config.getInt("joinEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
+                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.player.uniqueId}%7D?size=64&overlay=true%22")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)
@@ -41,7 +42,7 @@ class JoinQuitListener(private val plugin: WildDiscord): Listener {
     fun onLeave(event: PlayerQuitEvent) {
         if (!plugin.config.getBoolean("accessEnable")) return
         val formatModule = FormatModule()
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("leaveFormat")?:
         "**<player>**님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
 
@@ -51,6 +52,7 @@ class JoinQuitListener(private val plugin: WildDiscord): Listener {
             val color: Int = plugin.config.getInt("leaveEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
+                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.player.uniqueId}%7D?size=64&overlay=true%22")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)

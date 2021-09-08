@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord.listeners
+package org.proper.minecord.listeners
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
@@ -6,10 +6,10 @@ import org.bukkit.entity.EntityType
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.proper.minecord.Minecord
+import org.proper.minecord.utils.FormatModule
 
-class DeathListener(private val plugin: WildDiscord): Listener {
+class DeathListener(private val plugin: Minecord): Listener {
 
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
@@ -17,7 +17,7 @@ class DeathListener(private val plugin: WildDiscord): Listener {
         if (!plugin.config.getBoolean("deathEnable")) return
         val formatModule = FormatModule()
 
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("deathFormat")?: "**<player>님이 사망 하셨습니다.**"
 
         if (plugin.config.getBoolean("deathEmbed")) {
@@ -26,6 +26,7 @@ class DeathListener(private val plugin: WildDiscord): Listener {
             val color: Int = plugin.config.getInt("deathEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
+                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.entity.uniqueId}%7D?size=64&overlay=true%22")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)

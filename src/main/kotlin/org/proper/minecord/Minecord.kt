@@ -1,4 +1,4 @@
-package xyz.netherald.wild.discord
+package org.proper.minecord
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -6,22 +6,25 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import xyz.netherald.wild.discord.commands.*
-import xyz.netherald.wild.discord.listeners.*
+import org.proper.minecord.commands.OnlineCommand
+import org.proper.minecord.commands.PingPong
+import org.proper.minecord.commands.ReloadCommand
+import org.proper.minecord.listeners.*
 
-class WildDiscord : JavaPlugin() {
+class Minecord : JavaPlugin() {
 
     companion object {
         var jda: JDA? = null
         var init = false
-        var instance: WildDiscord? = null
+        var instance: Minecord? = null
     }
 
     private fun loadJDAModule() {
         val builder = JDABuilder.createDefault(this.config.getString("token")).apply {
-            addEventListeners(OnlineCommand(this@WildDiscord))
-            addEventListeners(SendChatListener(this@WildDiscord))
+            addEventListeners(OnlineCommand(this@Minecord))
+            addEventListeners(SendChatListener(this@Minecord))
             addEventListeners(PingPong())
+            addEventListeners(ReloadCommand())
         }
 
         if (this.config.getBoolean("show_activity")) {
@@ -35,6 +38,7 @@ class WildDiscord : JavaPlugin() {
             addCommands(CommandData("online", "You can see online player!"))
             addCommands(CommandData("ping", "You can pingpong with my bot"))
             addCommands(CommandData("pong", "You can pingpong with my bot"))
+            addCommands(CommandData("reload", "You can reload your minecraft server **ADMIN ONLY**"))
         }?.queue()
 
         logger.info("Wild - Discord module enabled!")
@@ -42,10 +46,10 @@ class WildDiscord : JavaPlugin() {
 
     private fun loadEventListener() {
         server.pluginManager.apply {
-            registerEvents(AsyncChatListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(DeathListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(JoinQuitListener(this@WildDiscord), this@WildDiscord)
-            registerEvents(KickListener(this@WildDiscord), this@WildDiscord)
+            registerEvents(AsyncChatListener(this@Minecord), this@Minecord)
+            registerEvents(DeathListener(this@Minecord), this@Minecord)
+            registerEvents(JoinQuitListener(this@Minecord), this@Minecord)
+            registerEvents(KickListener(this@Minecord), this@Minecord)
         }
 
         logger.info("Wild - Minecraft listener registered!")
