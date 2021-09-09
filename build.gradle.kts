@@ -5,29 +5,21 @@ plugins {
     `maven-publish`
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(16))
-    }
-}
-
 group = "org.propercrew"
-version = "3.0.0"
+version = "1.0.0-NATIVE"
 
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://m2.dv8tion.net/releases")
     maven("https://jitpack.io")
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(kotlin("stdlib-jdk8"))
     implementation("net.dv8tion:JDA:4.3.0_277")
-    implementation("net.kyori:adventure-api:4.9.1")
 
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("org.github.paperspigot:paperspigot-api:1.8.8-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -36,7 +28,7 @@ tasks {
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     processResources {

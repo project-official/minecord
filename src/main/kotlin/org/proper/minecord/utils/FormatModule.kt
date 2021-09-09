@@ -6,7 +6,6 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerEvent
 
 class FormatModule {
@@ -38,7 +37,7 @@ class FormatModule {
 
     private fun replaceChatColor(message: String): String {
         return message.replace("<black>", "${ChatColor.BLACK}")
-            .replace("<blue>", "${ChatColor.DARK_BLUE}")
+            .replace("<dark_blue>", "${ChatColor.DARK_BLUE}")
             .replace("<dark_green>", "${ChatColor.DARK_GREEN}")
             .replace("<dark_aqua>", "${ChatColor.DARK_AQUA}")
             .replace("<dark_red>", "${ChatColor.DARK_RED}")
@@ -200,13 +199,6 @@ class FormatModule {
 
     fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
         val player: String = replacePlayer(event.entity.player!!, formatter)
-        return player.replace("<message>", event.deathMessage().toString())
-    }
-
-    fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
-        val player: String = replacePlayer(event.player, formatter)
-
-        val advancement: String = event.advancement.key.key
-        return player.replace("<advancement>", advancement.replace("adventure/", ""))
+        return player.replace("<message>", event.deathMessage.toString())
     }
 }
