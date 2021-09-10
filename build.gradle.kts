@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.propercrew"
-version = "1.0.0-NATIVE"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
