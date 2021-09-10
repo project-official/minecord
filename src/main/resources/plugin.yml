@@ -1,5 +1,4 @@
 name: ${rootProject.name}
-main: xyz.netherald.wild.discord.WildDiscord
+main: org.proper.minecord.Minecord
 version: ${rootProject.version}
-authors: ["myoung2", "namutree0345", "Project_TL"]
-apiVersion: 1.17
+apiVersion: 1.12
