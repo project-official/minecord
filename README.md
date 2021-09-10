@@ -1,9 +1,10 @@
-# Wild Discordmc
+# minecord
 
 ## Feature
 - Embed
 - pingpong command
 - online command
+- reload command
 - apply slash command
 - async chat listener for discord
 
@@ -12,7 +13,7 @@
 [config.yml](https://github.com/Netherald/wild-discordmc/blob/master/src/main/resources/config.yml)
 ```yml
 ...
-messageFormat : "&4<sender>&r : <message>"
+messageFormat : "<red><sender><reset> : <message>"
 ```
 ### Build CI
 - [Goto Build CI](http://ci.projecttl.net:8111/project.html?projectId=WildDiscordmc&tab=projectOverview)
