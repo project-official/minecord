@@ -1,4 +1,4 @@
-package org.proper.minecord.commands
+package org.netherald.minecord.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent

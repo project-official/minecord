@@ -1,4 +1,4 @@
-package org.proper.minecord
+package org.netherald.minecord
 
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -6,10 +6,10 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import org.proper.minecord.commands.OnlineCommand
-import org.proper.minecord.commands.PingPong
-import org.proper.minecord.commands.ReloadCommand
-import org.proper.minecord.listeners.*
+import org.netherald.minecord.commands.OnlineCommand
+import org.netherald.minecord.commands.PingPong
+import org.netherald.minecord.commands.ReloadCommand
+import org.netherald.minecord.listeners.*
 
 class Minecord : JavaPlugin() {
 

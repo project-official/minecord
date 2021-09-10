@@ -1,4 +1,4 @@
-package org.netherald.wild.discord.utils
+package org.netherald.minecord.utils
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import org.bukkit.Bukkit
@@ -38,7 +38,7 @@ class FormatModule {
 
     private fun replaceChatColor(message: String): String {
         return message.replace("<black>", "${ChatColor.BLACK}")
-            .replace("<blue>", "${ChatColor.DARK_BLUE}")
+            .replace("<dark_blue>", "${ChatColor.DARK_BLUE}")
             .replace("<dark_green>", "${ChatColor.DARK_GREEN}")
             .replace("<dark_aqua>", "${ChatColor.DARK_AQUA}")
             .replace("<dark_red>", "${ChatColor.DARK_RED}")
@@ -180,9 +180,10 @@ class FormatModule {
             .replace("<level>", "${player.level}")
     }
 
+    @Suppress("DEPRECATION")
     fun replaceMsgFormat(event: AsyncPlayerChatEvent, formatter: String): String {
         val player: String = replacePlayer(event.player, formatter)
-        val message: String = event.message
+        val message = event.message
         return player.replace("<message>", message)
     }
 
@@ -199,8 +200,7 @@ class FormatModule {
 
     fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
         val player: String = replacePlayer(event.entity.player!!, formatter)
-        return player.replace("<message>", "${event.deathMessage}")
-
+        return player.replace("<message>", event.deathMessage().toString())
     }
 
     fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {

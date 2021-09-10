@@ -1,13 +1,13 @@
-package org.netherald.wild.discord.commands
+package org.netherald.minecord.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.bukkit.Bukkit
-import org.netherald.wild.discord.WildDiscord
+import org.netherald.minecord.Minecord
 
-class OnlineCommand(private val plugin: WildDiscord) : ListenerAdapter() {
+class OnlineCommand(private val plugin: Minecord) : ListenerAdapter() {
 
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (event.user.isBot) return
@@ -15,7 +15,7 @@ class OnlineCommand(private val plugin: WildDiscord) : ListenerAdapter() {
     }
 
     private fun onlineStatus(event: SlashCommandEvent) {
-        if (event.channel.id == WildDiscord.instance?.config?.getString("channelId")) {
+        if (event.channel.id == Minecord.instance?.config?.getString("channelId")) {
             val noMember: String? = plugin.config.getString("NoMemberMessage")
             if (plugin.config.getInt("styleOnlineCommand") == 0) {
                 var memberStr = "**온라인 유저** : \n```"

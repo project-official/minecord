@@ -1,4 +1,4 @@
-package org.proper.minecord.commands
+package org.netherald.minecord.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
-import org.proper.minecord.Minecord
+import org.netherald.minecord.Minecord
 
 class ReloadCommand(private val plugin: JavaPlugin) : ListenerAdapter() {
 
