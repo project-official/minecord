@@ -1,17 +1,18 @@
-package xyz.netherald.wild.discord.listeners
+package org.proper.minecord.listeners
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.proper.minecord.Minecord
+import org.proper.minecord.utils.FormatModule
 
-class AsyncChatListener(private val plugin: WildDiscord): Listener {
+class AsyncChatListener(private val plugin: Minecord): Listener {
 
+    @Suppress("DEPRECATION")
     @EventHandler
     fun onChat(event: AsyncPlayerChatEvent) {
         val formatModule = FormatModule()
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("chatFormat") ?: "**<player>**: <message>"
         channel?.sendMessage(formatModule.replaceMsgFormat(event, format))?.queue()
     }

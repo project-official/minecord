@@ -1,20 +1,20 @@
-package xyz.netherald.wild.discord.listeners
+package org.proper.minecord.listeners
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerKickEvent
-import xyz.netherald.wild.discord.WildDiscord
-import xyz.netherald.wild.discord.utils.FormatModule
+import org.proper.minecord.Minecord
+import org.proper.minecord.utils.FormatModule
 
-class KickListener(private val plugin: WildDiscord): Listener {
+class KickListener(private val plugin: Minecord): Listener {
 
     @EventHandler
     fun onPlayerKick(event: PlayerKickEvent) {
         if (!plugin.config.getBoolean("kickEnable")) return
         val formatModule = FormatModule()
-        val channel = WildDiscord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
+        val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("kickFormat")?:
         "**<player>님이 추방 되었습니다.**"
 

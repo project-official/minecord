@@ -4,7 +4,7 @@ channelId: "" # The id of main channel
 show_activity: true
 server_address: ""
 
-messageFormat: "<&d<sender>&r> <message>" # EX) &4<sender>&r : <message> // Follow to minecraft color code
+messageFormat: "<<light_purple><sender><reset>> <message>" # EX) <dark_red><sender><reset> : <message> // Follow to minecraft color code
 customColor: false
 supportMarkdown: true
 
@@ -13,7 +13,7 @@ NoMemberMessage: "사람이 없습니다."
 
 # Customizing is possible with Style 1.
 embedColor: 0x0070ff
-embedTitle: "**온라인 유저**"
+embedTitle: ":notepad_spiral: **온라인 유저**"
 embedField1: "인원:"
 embedField2: "목록:"
 
