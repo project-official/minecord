@@ -24,9 +24,8 @@ class DeathListener(private val plugin: Minecord): Listener {
             val title: String? = plugin.config.getString("deathEmbedTitle")
             val description: String = formatModule.replaceDeathFormat(event, format)
             val color: Int = plugin.config.getInt("deathEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.entity.uniqueId}%7D?size=64&overlay=true%22")
+            val builder = EmbedBuilder().setColor(color)
+                .setAuthor(description, null, "https://crafatar.com/avatars/${event.entity.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)

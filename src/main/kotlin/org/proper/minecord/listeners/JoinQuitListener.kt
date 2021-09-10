@@ -23,9 +23,8 @@ class JoinQuitListener(private val plugin: Minecord): Listener {
             val title: String? = plugin.config.getString("joinEmbedTitle")
             val description: String = formatModule.replaceAccessFormat(event, format, false)
             val color: Int = plugin.config.getInt("joinEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.player.uniqueId}%7D?size=64&overlay=true%22")
+            val builder = EmbedBuilder().setColor(color)
+                .setAuthor(description, null, "https://crafatar.com/avatars/${event.player.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)
@@ -50,9 +49,8 @@ class JoinQuitListener(private val plugin: Minecord): Listener {
             val title: String? = plugin.config.getString("leaveEmbedTitle")
             val description: String = formatModule.replaceAccessFormat(event, format, true)
             val color: Int = plugin.config.getInt("leaveEmbedColor")
-            val builder = EmbedBuilder().setDescription(description)
-                .setColor(color)
-                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.player.uniqueId}%7D?size=64&overlay=true%22")
+            val builder = EmbedBuilder().setColor(color)
+                .setAuthor(description, null, "https://crafatar.com/avatars/${event.player.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)

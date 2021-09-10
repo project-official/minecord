@@ -38,7 +38,7 @@ class FormatModule {
 
     private fun replaceChatColor(message: String): String {
         return message.replace("<black>", "${ChatColor.BLACK}")
-            .replace("<blue>", "${ChatColor.DARK_BLUE}")
+            .replace("<dark_blue>", "${ChatColor.DARK_BLUE}")
             .replace("<dark_green>", "${ChatColor.DARK_GREEN}")
             .replace("<dark_aqua>", "${ChatColor.DARK_AQUA}")
             .replace("<dark_red>", "${ChatColor.DARK_RED}")

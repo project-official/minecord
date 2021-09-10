@@ -24,7 +24,7 @@ class Minecord : JavaPlugin() {
             addEventListeners(OnlineCommand(this@Minecord))
             addEventListeners(SendChatListener(this@Minecord))
             addEventListeners(PingPong())
-            addEventListeners(ReloadCommand())
+            addEventListeners(ReloadCommand(this@Minecord))
         }
 
         if (this.config.getBoolean("show_activity")) {
