@@ -1,9 +1,9 @@
-package org.proper.minecord.commands
+package org.propercrew.minecord.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.proper.minecord.Minecord
+import org.propercrew.minecord.Minecord
 
 class PingPong: ListenerAdapter() {
 

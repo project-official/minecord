@@ -1,10 +1,10 @@
-package org.proper.minecord.listeners
+package org.propercrew.minecord.listeners
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
-import org.proper.minecord.Minecord
-import org.proper.minecord.utils.FormatModule
+import org.propercrew.minecord.Minecord
+import org.propercrew.minecord.utils.FormatModule
 
 class AsyncChatListener(private val plugin: Minecord): Listener {
 

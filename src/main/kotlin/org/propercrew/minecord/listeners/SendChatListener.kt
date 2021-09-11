@@ -1,12 +1,12 @@
-package org.proper.minecord.listeners
+package org.propercrew.minecord.listeners
 
 import net.dv8tion.jda.api.entities.ChannelType
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.EventListener
 import org.bukkit.Bukkit
-import org.proper.minecord.Minecord
-import org.proper.minecord.utils.FormatModule
+import org.propercrew.minecord.Minecord
+import org.propercrew.minecord.utils.FormatModule
 
 class SendChatListener(private val plugin: Minecord): EventListener {
 
