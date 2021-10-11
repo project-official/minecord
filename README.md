@@ -1,5 +1,5 @@
-# minecord-native
-Netherald's minecord native version.
+# minecord
+Netherald's minecord fork version.
 
 ## Feature
 - Embed
@@ -8,7 +8,7 @@ Netherald's minecord native version.
 - reload command
 - apply slash command
 - async chat listener for discord
-- support native version [Based for 1.8.8]
+- support legacy version [Based for 1.8.8]
 
 ### Configurations
 
