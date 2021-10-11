@@ -1,4 +1,4 @@
 name: ${rootProject.name}
-main: org.proper.minecord.Minecord
+main: org.propercrew.minecord.Minecord
 version: ${rootProject.version}
 apiVersion: 1.12
