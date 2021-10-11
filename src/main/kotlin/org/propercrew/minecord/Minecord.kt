@@ -9,7 +9,6 @@ import org.bukkit.plugin.java.JavaPlugin
 import org.propercrew.minecord.commands.OnlineCommand
 import org.propercrew.minecord.commands.PingPong
 import org.propercrew.minecord.commands.ReloadCommand
-import org.proper.minecord.listeners.*
 import org.propercrew.minecord.listeners.*
 
 class Minecord : JavaPlugin() {

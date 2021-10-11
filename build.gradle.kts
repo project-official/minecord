@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.propercrew"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("net.dv8tion:JDA:4.3.0_277")
 
-    compileOnly("org.github.paperspigot:paperspigot-api:1.8.8-R0.1-SNAPSHOT")
+    compileOnly("com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT")
 }
 
 tasks {

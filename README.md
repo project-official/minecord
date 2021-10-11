@@ -8,7 +8,7 @@ Netherald's minecord fork version.
 - reload command
 - apply slash command
 - async chat listener for discord
-- support legacy version [Based for 1.8.8]
+- support legacy version [Based for 1.12.2]
 
 ### Configurations
 
