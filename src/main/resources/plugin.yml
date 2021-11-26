@@ -1,4 +1,4 @@
 name: ${rootProject.name}
-main: org.netherald.minecord.Minecord
 version: ${rootProject.version}
-apiVersion: 1.17
+api-version: 1.17
+main: org.propercrew.minecord.Minecord

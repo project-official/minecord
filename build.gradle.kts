@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "1.5.30"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    kotlin("jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 
     `maven-publish`
 }
@@ -11,12 +11,11 @@ java {
     }
 }
 
-group = "org.netherald"
-version = "3.1.0"
+group = "org.propercrew"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://m2.dv8tion.net/releases")
     maven("https://jitpack.io")

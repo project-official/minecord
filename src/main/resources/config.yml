@@ -27,8 +27,8 @@ chatEmbedColor: 0x0070ff
 chatEmbedTitle: "**온라인 유저**"
 
 accessEnable: true
-joinFormat: "**<player>**님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
-leaveFormat: "**<player>**님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
+joinFormat: "<player>님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
+leaveFormat: "<player>님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
 joinEmbed: false
 leaveEmbed: false
 joinEmbedColor: 0x43b581
@@ -37,19 +37,13 @@ joinEmbedTitle: ""
 leaveEmbedTitle: ""
 
 deathEnable: true
-deathFormat: "**<player>님이 사망 하셨습니다.**"
+deathFormat: "<player>님이 사망 하셨습니다."
 deathEmbed: false
 deathEmbedColor: 0x0
 deathEmbedTitle: ""
 
 kickEnable: true
-kickFormat: "**<player>님이 추방 되었습니다.**"
+kickFormat: "<player>님이 추방 되었습니다."
 kickEmbed: false
 kickEmbedColor: 0xc14243
 kickEmbedTitle: ""
-
-advancementEnable: true
-advancementFormat: "**<player>님이 <advancement>를 클리어 하였습니다.**"
-advancementEmbed: false
-advancementEmbedColor: 0x0070ff
-advancementEmbedTitle: ""
