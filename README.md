@@ -1,5 +1,4 @@
 # minecord
-Netherald's minecord fork version.
 
 ## Feature
 - Embed
@@ -15,9 +14,6 @@ Netherald's minecord fork version.
 [config.yml](https://github.com/Netherald/wild-discordmc/blob/master/src/main/resources/config.yml)
 ```yml
 ...
-messageFormat : "<light_purple><sender><reset> : <message>"
-```
 
-### Forked by
-Forked by Netherald
-[[Netherald's minecord]](https://github.com/Netherald/minecord)
+messageFormat : "<red><sender><reset> : <message>"
+```

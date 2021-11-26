@@ -1,8 +1,14 @@
 plugins {
-    kotlin("jvm") version "1.5.30"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
+    kotlin("jvm") version "1.6.0"
+    id("com.github.johnrengelman.shadow") version "7.1.0"
 
     `maven-publish`
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(16))
+    }
 }
 
 group = "org.propercrew"
@@ -18,8 +24,9 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("net.dv8tion:JDA:4.3.0_277")
+    implementation("net.kyori:adventure-api:4.9.1")
 
-    compileOnly("com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 }
 
 tasks {
@@ -28,7 +35,7 @@ tasks {
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "16"
     }
 
     processResources {
