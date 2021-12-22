@@ -1,17 +1,19 @@
-package org.netherald.minecord.listeners
+package org.propercrew.minecord.listeners
 
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.MessageEmbed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
-import org.netherald.minecord.Minecord
-import org.netherald.minecord.utils.FormatModule
+import org.propercrew.minecord.Minecord
+import org.propercrew.minecord.utils.FormatModule
 
-class AdvancementListener(private val plugin: Minecord): Listener {
+class AdvancementListener: Listener {
 
     @EventHandler
     fun onPlayerAdvancement(event: PlayerAdvancementDoneEvent) {
+        val plugin = Minecord.instance!!
+
         if (!plugin.config.getBoolean("advancementEnable")) return
         val formatModule = FormatModule()
         val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
@@ -24,14 +26,14 @@ class AdvancementListener(private val plugin: Minecord): Listener {
             val color: Int = plugin.config.getInt("advancementEmbedColor")
             val builder = EmbedBuilder().setDescription(description)
                 .setColor(color)
-                .setAuthor(null, null, "https://crafatar.com/avatars/$%7B${event.player.uniqueId}%7D?size=64&overlay=true%22")
+                .setAuthor(null, null, "https://crafatar.com/avatars/${event.player.uniqueId}?size=64&overlay=true")
 
             if (!(title == null || title == "")) {
                 builder.setTitle(title)
             }
 
             val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
+            channel?.sendMessageEmbeds(embed)?.queue()
         } else {
             channel?.sendMessage(formatModule.replaceAdvancementFormat(event, format))?.queue()
         }

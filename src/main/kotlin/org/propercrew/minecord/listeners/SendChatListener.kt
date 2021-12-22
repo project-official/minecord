@@ -8,9 +8,11 @@ import org.bukkit.Bukkit
 import org.propercrew.minecord.Minecord
 import org.propercrew.minecord.utils.FormatModule
 
-class SendChatListener(private val plugin: Minecord): EventListener {
+class SendChatListener: EventListener {
 
     override fun onEvent(event: GenericEvent) {
+        val plugin = Minecord.instance!!
+
         if (event is MessageReceivedEvent) {
             if (event.author.isBot) {
                 return

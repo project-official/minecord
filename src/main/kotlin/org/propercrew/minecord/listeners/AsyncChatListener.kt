@@ -6,11 +6,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.propercrew.minecord.Minecord
 import org.propercrew.minecord.utils.FormatModule
 
-class AsyncChatListener(private val plugin: Minecord): Listener {
+class AsyncChatListener: Listener {
 
     @Suppress("DEPRECATION")
     @EventHandler
     fun onChat(event: AsyncPlayerChatEvent) {
+        val plugin = Minecord.instance!!
         val formatModule = FormatModule()
         val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
         val format: String = plugin.config.getString("chatFormat") ?: "**<player>**: <message>"

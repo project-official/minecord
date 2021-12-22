@@ -9,7 +9,9 @@ import org.bukkit.event.player.PlayerQuitEvent
 import org.propercrew.minecord.Minecord
 import org.propercrew.minecord.utils.FormatModule
 
-class JoinQuitListener(private val plugin: Minecord): Listener {
+class JoinQuitListener: Listener {
+
+    private val plugin = Minecord.instance!!
 
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
@@ -31,7 +33,7 @@ class JoinQuitListener(private val plugin: Minecord): Listener {
             }
 
             val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
+            channel?.sendMessageEmbeds(embed)?.queue()
         } else {
             channel?.sendMessage(formatModule.replaceAccessFormat(event, format, false))?.queue()
         }
@@ -57,7 +59,7 @@ class JoinQuitListener(private val plugin: Minecord): Listener {
             }
 
             val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
+            channel?.sendMessageEmbeds(embed)?.queue()
         } else {
             channel?.sendMessage(formatModule.replaceAccessFormat(event, format, true))?.queue()
         }

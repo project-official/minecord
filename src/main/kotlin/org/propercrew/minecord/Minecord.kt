@@ -21,10 +21,12 @@ class Minecord : JavaPlugin() {
 
     private fun loadJDAModule() {
         val builder = JDABuilder.createDefault(this.config.getString("token")).apply {
-            addEventListeners(OnlineCommand(this@Minecord))
-            addEventListeners(SendChatListener(this@Minecord))
-            addEventListeners(PingPong())
-            addEventListeners(ReloadCommand(this@Minecord))
+            addEventListeners(
+                OnlineCommand(),
+                SendChatListener(),
+                PingPong(),
+                ReloadCommand()
+            )
         }
 
         if (this.config.getBoolean("show_activity")) {
@@ -35,10 +37,12 @@ class Minecord : JavaPlugin() {
         val commands = jda?.updateCommands()
 
         commands?.apply {
-            addCommands(CommandData("online", "You can see online player!"))
-            addCommands(CommandData("ping", "You can pingpong with my bot"))
-            addCommands(CommandData("pong", "You can pingpong with my bot"))
-            addCommands(CommandData("reload", "You can reload your minecraft server **ADMIN ONLY**"))
+            addCommands(
+                CommandData("online", "You can see online player!"),
+                CommandData("ping", "You can ping pong with my bot"),
+                CommandData("pong", "You can ping pong with my bot"),
+                CommandData("reload", "You can reload your minecraft server **ADMIN ONLY**")
+            )
         }?.queue()
 
         logger.info("Wild - Discord module enabled!")
@@ -46,10 +50,10 @@ class Minecord : JavaPlugin() {
 
     private fun loadEventListener() {
         server.pluginManager.apply {
-            registerEvents(AsyncChatListener(this@Minecord), this@Minecord)
-            registerEvents(DeathListener(this@Minecord), this@Minecord)
-            registerEvents(JoinQuitListener(this@Minecord), this@Minecord)
-            registerEvents(KickListener(this@Minecord), this@Minecord)
+            registerEvents(AsyncChatListener(), this@Minecord)
+            registerEvents(DeathListener(), this@Minecord)
+            registerEvents(JoinQuitListener(), this@Minecord)
+            registerEvents(KickListener(), this@Minecord)
         }
 
         logger.info("Wild - Minecraft listener registered!")

@@ -8,10 +8,12 @@ import org.bukkit.event.player.PlayerKickEvent
 import org.propercrew.minecord.Minecord
 import org.propercrew.minecord.utils.FormatModule
 
-class KickListener(private val plugin: Minecord): Listener {
+class KickListener: Listener {
 
     @EventHandler
     fun onPlayerKick(event: PlayerKickEvent) {
+        val plugin = Minecord.instance!!
+
         if (!plugin.config.getBoolean("kickEnable")) return
         val formatModule = FormatModule()
         val channel = Minecord.jda?.getTextChannelById(plugin.config.getString("channelId")!!)
@@ -30,7 +32,7 @@ class KickListener(private val plugin: Minecord): Listener {
             }
 
             val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
+            channel?.sendMessageEmbeds(embed)?.queue()
         } else {
             channel?.sendMessage(formatModule.replaceAccessFormat(event, format, true))?.queue()
         }

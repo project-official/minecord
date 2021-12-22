@@ -9,10 +9,12 @@ import org.bukkit.event.entity.PlayerDeathEvent
 import org.propercrew.minecord.Minecord
 import org.propercrew.minecord.utils.FormatModule
 
-class DeathListener(private val plugin: Minecord): Listener {
+class DeathListener: Listener {
 
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
+        val plugin = Minecord.instance!!
+
         if (event.entityType != EntityType.PLAYER) return
         if (!plugin.config.getBoolean("deathEnable")) return
         val formatModule = FormatModule()
@@ -32,7 +34,7 @@ class DeathListener(private val plugin: Minecord): Listener {
             }
 
             val embed: MessageEmbed = builder.build()
-            channel?.sendMessage(embed)?.queue()
+            channel?.sendMessageEmbeds(embed)?.queue()
         } else {
             channel?.sendMessage(formatModule.replaceDeathFormat(event, format))?.queue()
         }

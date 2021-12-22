@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.bukkit.Bukkit
 import org.propercrew.minecord.Minecord
 
-class OnlineCommand(private val plugin: Minecord) : ListenerAdapter() {
+class OnlineCommand: ListenerAdapter() {
 
     override fun onSlashCommand(event: SlashCommandEvent) {
         if (event.user.isBot) return
@@ -15,6 +15,8 @@ class OnlineCommand(private val plugin: Minecord) : ListenerAdapter() {
     }
 
     private fun onlineStatus(event: SlashCommandEvent) {
+        val plugin = Minecord.instance!!
+
         if (event.channel.id == Minecord.instance?.config?.getString("channelId")) {
             val noMember: String? = plugin.config.getString("NoMemberMessage")
             if (plugin.config.getInt("styleOnlineCommand") == 0) {
