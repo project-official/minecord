@@ -1,6 +1,8 @@
 token: "" # The discord bot token
 channelId: "" # The id of main channel
 
+invite_url: ""
+
 show_activity: true
 server_address: ""
 

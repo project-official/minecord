@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.propercrew.minecord.commands.Invite
 import org.propercrew.minecord.commands.OnlineCommand
 import org.propercrew.minecord.commands.PingPong
 import org.propercrew.minecord.commands.ReloadCommand
@@ -59,10 +60,12 @@ class Minecord : JavaPlugin() {
         logger.info("Wild - Minecraft listener registered!")
     }
 
-    /*
     private fun loadCommand() {
+        getCommand("invite")?.apply {
+            setExecutor(Invite)
+            tabCompleter = Invite
+        }
     }
-     */
 
     override fun onEnable() {
         instance = this

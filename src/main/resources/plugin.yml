@@ -2,3 +2,8 @@ name: ${rootProject.name}
 version: ${rootProject.version}
 api-version: 1.17
 main: org.propercrew.minecord.Minecord
+
+commands:
+  invite:
+    description: invite url
+    usage: /invite <option> <url>
