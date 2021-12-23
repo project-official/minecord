@@ -76,7 +76,7 @@ class Minecord : JavaPlugin() {
 
         loadJDAModule()
         loadEventListener()
-        // loadCommand()
+        loadCommand()
 
         logger.info("Wild - Discord Plugin successful loaded.")
         Bukkit.getScheduler().runTaskLater(this, Runnable {
