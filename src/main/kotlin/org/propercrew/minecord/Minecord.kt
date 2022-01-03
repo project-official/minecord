@@ -6,10 +6,7 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
-import org.propercrew.minecord.commands.Invite
-import org.propercrew.minecord.commands.OnlineCommand
-import org.propercrew.minecord.commands.PingPong
-import org.propercrew.minecord.commands.ReloadCommand
+import org.propercrew.minecord.commands.*
 import org.propercrew.minecord.listeners.*
 
 class Minecord : JavaPlugin() {
@@ -26,7 +23,8 @@ class Minecord : JavaPlugin() {
                 OnlineCommand(),
                 SendChatListener(),
                 PingPong(),
-                ReloadCommand()
+                ReloadCommand(),
+                MinecordInfo()
             )
         }
 
@@ -42,11 +40,12 @@ class Minecord : JavaPlugin() {
                 CommandData("online", "You can see online player!"),
                 CommandData("ping", "You can ping pong with my bot"),
                 CommandData("pong", "You can ping pong with my bot"),
-                CommandData("reload", "You can reload your minecraft server **ADMIN ONLY**")
+                CommandData("reload", "You can reload your minecraft server **ADMIN ONLY**"),
+                CommandData("info", "You can see info about minecraft server or this bot")
             )
         }?.queue()
 
-        logger.info("Wild - Discord module enabled!")
+        logger.info("MineCord - Discord module enabled!")
     }
 
     private fun loadEventListener() {
@@ -57,7 +56,7 @@ class Minecord : JavaPlugin() {
             registerEvents(KickListener(), this@Minecord)
         }
 
-        logger.info("Wild - Minecraft listener registered!")
+        logger.info("MineCord - Minecraft listener registered!")
     }
 
     private fun loadCommand() {
@@ -71,14 +70,14 @@ class Minecord : JavaPlugin() {
         instance = this
         if (!dataFolder.exists()) {
             this.saveDefaultConfig()
-            logger.info("Wild - Initialized configuration!")
+            logger.info("MineCord - Initialized configuration!")
         }
 
         loadJDAModule()
         loadEventListener()
         loadCommand()
 
-        logger.info("Wild - Discord Plugin successful loaded.")
+        logger.info("MineCord - Discord Plugin successful loaded.")
         Bukkit.getScheduler().runTaskLater(this, Runnable {
             startMessage()
         }, 20L)
