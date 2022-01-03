@@ -12,7 +12,7 @@ java {
 }
 
 group = "org.propercrew"
-version = "1.1.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
@@ -23,7 +23,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.dv8tion:JDA:5.0.0-alpha.2")
+    implementation("net.dv8tion:JDA:5.0.0-alpha.2") {
+        exclude(module="opus-java")
+    }
 
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 }

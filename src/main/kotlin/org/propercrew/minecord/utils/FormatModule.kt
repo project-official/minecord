@@ -11,54 +11,37 @@ import org.bukkit.event.player.PlayerEvent
 
 class FormatModule {
 
-    private val listColor: List<String> = listOf(
-        "<black>",
-        "<blue>",
-        "<dark_green>",
-        "<dark_aqua>",
-        "<dark_red>",
-        "<dark_purple>",
-        "<gold>",
-        "<gray>",
-        "<dark_gray>",
-        "<blue>",
-        "<green>",
-        "<aqua>",
-        "<red>",
-        "<light_purple>",
-        "<yellow>",
-        "<white>",
-        "<magic>",
-        "<bold>",
-        "<strike_through>",
-        "<under_line>",
-        "<italic>",
-        "<reset>"
+    private val listColorMap: HashMap<String, ChatColor> = hashMapOf(
+        Pair("<black>", ChatColor.BLACK),
+        Pair("<blue>", ChatColor.BLUE),
+        Pair("<dark_green>", ChatColor.DARK_GREEN),
+        Pair("<dark_aqua>", ChatColor.DARK_AQUA),
+        Pair("<dark_red>", ChatColor.DARK_RED),
+        Pair("<dark_purple>", ChatColor.DARK_PURPLE),
+        Pair("<gold>", ChatColor.GOLD),
+        Pair("<gray>", ChatColor.GRAY),
+        Pair("<dark_gray>", ChatColor.DARK_GRAY),
+        Pair("<blue>", ChatColor.BLUE),
+        Pair("<green>", ChatColor.GREEN),
+        Pair("<aqua>", ChatColor.AQUA),
+        Pair("<red>", ChatColor.RED),
+        Pair("<light_purple>", ChatColor.LIGHT_PURPLE),
+        Pair("<yellow>", ChatColor.YELLOW),
+        Pair("<white>", ChatColor.WHITE),
+        Pair("<magic>", ChatColor.MAGIC),
+        Pair("<bold>", ChatColor.BOLD),
+        Pair("<strike_through>", ChatColor.STRIKETHROUGH),
+        Pair("<under_line>", ChatColor.UNDERLINE),
+        Pair("<italic>", ChatColor.ITALIC),
+        Pair("<reset>", ChatColor.RESET)
     )
 
     private fun replaceChatColor(message: String): String {
-        return message.replace("<black>", "${ChatColor.BLACK}")
-            .replace("<dark_blue>", "${ChatColor.DARK_BLUE}")
-            .replace("<dark_green>", "${ChatColor.DARK_GREEN}")
-            .replace("<dark_aqua>", "${ChatColor.DARK_AQUA}")
-            .replace("<dark_red>", "${ChatColor.DARK_RED}")
-            .replace("<dark_purple>", "${ChatColor.DARK_PURPLE}")
-            .replace("<gold>", "${ChatColor.GOLD}")
-            .replace("<gray>", "${ChatColor.GRAY}")
-            .replace("<dark_gray>", "${ChatColor.DARK_GRAY}")
-            .replace("<blue>", "${ChatColor.BLUE}")
-            .replace("<green>", "${ChatColor.GREEN}")
-            .replace("<aqua>", "${ChatColor.AQUA}")
-            .replace("<red>", "${ChatColor.RED}")
-            .replace("<light_purple>", "${ChatColor.LIGHT_PURPLE}")
-            .replace("<yellow>", "${ChatColor.YELLOW}")
-            .replace("<white>", "${ChatColor.WHITE}")
-            .replace("<magic>", "${ChatColor.MAGIC}")
-            .replace("<bold>", "${ChatColor.BOLD}")
-            .replace("<strike_through>", "${ChatColor.STRIKETHROUGH}")
-            .replace("<under_line>", "${ChatColor.UNDERLINE}")
-            .replace("<italic>", "${ChatColor.ITALIC}")
-            .replace("<reset>", "${ChatColor.RESET}")
+        var msg: String = message
+        for(color in listColorMap.keys) {
+            msg = message.replace(color, "${listColorMap[color]}")
+        }
+        return msg
     }
 
     fun replaceChatFormat(
@@ -87,7 +70,7 @@ class FormatModule {
                 var alreadyColor = false
 
                 if (CustomColor) {
-                    for (color in listColor) {
+                    for (color in listColorMap.keys) {
                         if (value.startsWith(color)) {
                             setColor = color
 
