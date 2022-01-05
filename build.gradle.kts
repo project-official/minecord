@@ -12,13 +12,14 @@ java {
 }
 
 group = "org.propercrew"
-version = "1.1.1"
+version = "1.1.2"
 
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://m2.dv8tion.net/releases")
     maven("https://jitpack.io")
+    mavenLocal()
 }
 
 dependencies {
@@ -26,7 +27,7 @@ dependencies {
     implementation("net.dv8tion:JDA:5.0.0-alpha.2") {
         exclude(module="opus-java")
     }
-
+    compileOnly("org.apache.logging.log4j:log4j-core:2.17.0")
     compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
 }
 
