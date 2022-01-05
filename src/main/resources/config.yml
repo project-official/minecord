@@ -1,6 +1,9 @@
 token: "" # The discord bot token
 channelId: "" # The id of main channel
 
+console-srv: false # Enable/Disable Console SRV
+console-srv-channelId: "" # The id of console channel
+
 invite_url: ""
 
 show_activity: true

@@ -4,10 +4,18 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.core.Logger
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import org.propercrew.minecord.commands.*
+import org.propercrew.minecord.discordListeners.GuildChatListener
 import org.propercrew.minecord.listeners.*
+import org.propercrew.minecord.utils.LogAppender
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.PrintStream
+
 
 class Minecord : JavaPlugin() {
 
@@ -17,6 +25,8 @@ class Minecord : JavaPlugin() {
         var instance: Minecord? = null
     }
 
+    private var isLog4JCapable = false
+
     private fun loadJDAModule() {
         val builder = JDABuilder.createDefault(this.config.getString("token")).apply {
             addEventListeners(
@@ -24,7 +34,8 @@ class Minecord : JavaPlugin() {
                 SendChatListener(),
                 PingPong(),
                 ReloadCommand(),
-                MinecordInfo()
+                MinecordInfo(),
+                GuildChatListener()
             )
         }
 
@@ -59,12 +70,34 @@ class Minecord : JavaPlugin() {
         logger.info("MineCord - Minecraft listener registered!")
     }
 
+    private fun loadConsoleSRV() {
+        if(this.config.getBoolean("console-srv")) {
+            if(this.config.getString("console-srv-channelId") == "" || this.config.getString("console-srv-channelId") == null) {
+                throw Exception("You must set console-srv-channelId in config.yml!")
+            } else {
+                try {
+                    val logger = LogManager.getRootLogger() as Logger
+                    logger.addAppender(LogAppender())
+                } catch (e: Exception) {
+                    throw e
+                } finally {
+                    logger.info("MineCord - ConsoleSRV module enabled!")
+                }
+
+//                Bukkit.getScheduler().runTaskTimerAsynchronously(this, Runnable {
+//
+//                }, 0, 20L)
+            }
+        }
+    }
+
     private fun loadCommand() {
         getCommand("invite")?.apply {
             setExecutor(Invite)
             tabCompleter = Invite
         }
     }
+
 
     override fun onEnable() {
         instance = this
@@ -79,13 +112,26 @@ class Minecord : JavaPlugin() {
 
         logger.info("MineCord - Discord Plugin successful loaded.")
         Bukkit.getScheduler().runTaskLater(this, Runnable {
+            loadConsoleSRV()
             startMessage()
         }, 20L)
+
     }
 
     override fun onDisable() {
         stopMessage()
         init = false
+
+        try {
+            val logger = LogManager.getRootLogger() as Logger
+            logger.removeAppender(LogAppender())
+        } catch (e: Exception) {
+            throw e
+        }
+
+        LogAppender().stop()
+
+
 
         jda?.shutdown()
     }
@@ -93,12 +139,21 @@ class Minecord : JavaPlugin() {
     private fun startMessage() {
         val channel = jda?.getTextChannelById(config.getString("channelId")!!)
         val message: String = config.getString("startMessage")?: "**서버가 시작 되었습니다.** :white_check_mark:"
+        if(config.getBoolean("console-srv")) {
+            val srvChannel = jda?.getTextChannelById(config.getString("console-srv-channelId")!!)
+            srvChannel?.sendMessage(message)?.queue()
+        }
+
         channel?.sendMessage(message)?.queue()
     }
 
     private fun stopMessage() {
         val channel = jda?.getTextChannelById(config.getString("channelId")!!)
         val message: String = config.getString("stopMessage")?: "**서버가 종료 되었습니다.** :stop_sign:"
+        if(config.getBoolean("console-srv")) {
+            val srvChannel = jda?.getTextChannelById(config.getString("console-srv-channelId")!!)
+            srvChannel?.sendMessage(message)?.queue()
+        }
         channel?.sendMessage(message)?.queue()
     }
 }
