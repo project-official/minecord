@@ -1,8 +1,6 @@
 plugins {
     kotlin("jvm") version "1.7.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
-
-    `maven-publish`
 }
 
 java {
@@ -37,7 +35,7 @@ tasks {
     }
 
     compileKotlin {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_16.toString()
+        kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     processResources {
