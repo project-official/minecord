@@ -61,10 +61,7 @@ class Minecord : JavaPlugin() {
 
     override fun onEnable() {
         instance = this
-        if (!dataFolder.exists()) {
-            this.saveDefaultConfig()
-            logger.info("MineCord - Initialized configuration!")
-        }
+        this.saveDefaultConfig()
 
         loadJDAModule()
         loadEventListener()
