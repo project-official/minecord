@@ -1,11 +1,12 @@
-package org.propercrew.minecord.utils
+package dev.cube1.minecord.utils
 
+import io.papermc.paper.event.player.AsyncChatEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.PlayerDeathEvent
-import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerEvent
 
@@ -38,17 +39,16 @@ class FormatModule {
 
     private fun replaceChatColor(message: String): String {
         var msg: String = message
-        for(color in listColorMap.keys) {
+        for (color in listColorMap.keys) {
             msg = message.replace(color, "${listColorMap[color]}")
         }
         return msg
     }
 
-    fun replaceChatFormat(
-        event: MessageReceivedEvent,
+    fun replaceChatFormat(event: MessageReceivedEvent,
         formatter: String,
-        Markdown: Boolean,
-        CustomColor: Boolean
+        markdown: Boolean,
+        customColor: Boolean
     ): String {
         val customColorMessage: String
 
@@ -57,7 +57,7 @@ class FormatModule {
 
         val stringMessage: String = event.message.contentRaw
 
-        if (Markdown) {
+        if (markdown) {
             var setBold = false
             var setColor: String? = null
             var setItalic = false
@@ -69,7 +69,7 @@ class FormatModule {
                 val value: String = stringMessage.slice(index until stringMessage.length)
                 var alreadyColor = false
 
-                if (CustomColor) {
+                if (customColor) {
                     for (color in listColorMap.keys) {
                         if (value.startsWith(color)) {
                             setColor = color
@@ -86,7 +86,7 @@ class FormatModule {
                     if (setBold) {
                         setBold = false
                         markdownMessage += "${ChatColor.RESET}"
-                        if (CustomColor && setColor != null) {
+                        if (customColor && setColor != null) {
                             markdownMessage += setColor
                             index += setColor.length
                         }
@@ -99,7 +99,7 @@ class FormatModule {
                     if (setItalic) {
                         setItalic = false
                         markdownMessage += "${ChatColor.RESET}"
-                        if (CustomColor && setColor != null) {
+                        if (customColor && setColor != null) {
                             markdownMessage += setColor
                             index += setColor.length
                         }
@@ -112,7 +112,7 @@ class FormatModule {
                     if (setStrikethrough) {
                         setStrikethrough = false
                         markdownMessage += "${ChatColor.RESET}"
-                        if (CustomColor && setColor != null) {
+                        if (customColor && setColor != null) {
                             markdownMessage += setColor
                             index += setColor.length
                         }
@@ -125,7 +125,7 @@ class FormatModule {
                     if (setUnderline) {
                         setUnderline = false
                         markdownMessage += "${ChatColor.RESET}"
-                        if (CustomColor && setColor != null) {
+                        if (customColor && setColor != null) {
                             markdownMessage += setColor
                             index += setColor.length
                         }
@@ -145,7 +145,7 @@ class FormatModule {
             markdownMessage = stringMessage
         }
 
-        customColorMessage = if (CustomColor) {
+        customColorMessage = if (customColor) {
             replaceChatColor(markdownMessage)
         } else {
             markdownMessage
@@ -163,10 +163,9 @@ class FormatModule {
             .replace("<level>", "${player.level}")
     }
 
-    @Suppress("DEPRECATION")
-    fun replaceMsgFormat(event: AsyncPlayerChatEvent, formatter: String): String {
+    fun replaceMsgFormat(event: AsyncChatEvent, formatter: String): String {
         val player: String = replacePlayer(event.player, formatter)
-        val message = event.message
+        val message = PlainTextComponentSerializer.plainText().serialize(event.message())
         return player.replace("<message>", message)
     }
 
@@ -183,13 +182,16 @@ class FormatModule {
 
     fun replaceDeathFormat(event: PlayerDeathEvent, formatter: String): String {
         val player: String = replacePlayer(event.entity.player!!, formatter)
-        return player.replace("<message>", event.deathMessage.toString())
+        return player.replace(
+            "<message>",
+            PlainTextComponentSerializer.plainText().serialize(event.deathMessage()!!)
+        )
     }
 
     fun replaceAdvancementFormat(event: PlayerAdvancementDoneEvent, formatter: String): String {
         val player: String = replacePlayer(event.player, formatter)
+        val advancement = PlainTextComponentSerializer.plainText().serialize(event.advancement.display!!.title())
 
-        val advancement: String = event.advancement.key.key
-        return player.replace("<advancement>", advancement.replace("adventure/", ""))
+        return player.replace("<advancement>", advancement)
     }
 }

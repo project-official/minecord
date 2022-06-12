@@ -1,18 +1,18 @@
 plugins {
-    kotlin("jvm") version "1.6.10"
-    id("com.github.johnrengelman.shadow") version "7.1.1"
+    kotlin("jvm") version "1.7.0"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 
     `maven-publish`
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(16))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
-group = "org.propercrew"
-version = "1.1.2"
+group = "dev.cube1"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
@@ -24,11 +24,11 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.dv8tion:JDA:5.0.0-alpha.2") {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.12") {
         exclude(module="opus-java")
     }
-    compileOnly("org.apache.logging.log4j:log4j-core:2.17.0")
-    compileOnly("io.papermc.paper:paper-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("org.apache.logging.log4j:log4j-core:2.17.2")
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
 }
 
 tasks {

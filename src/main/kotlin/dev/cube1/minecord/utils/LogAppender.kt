@@ -1,9 +1,9 @@
-package org.propercrew.minecord.utils
+package dev.cube1.minecord.utils
 
 import org.apache.logging.log4j.core.LogEvent
 import org.apache.logging.log4j.core.appender.AbstractAppender
-import org.propercrew.minecord.Minecord.Companion.instance
-import org.propercrew.minecord.Minecord.Companion.jda
+import dev.cube1.minecord.instance
+import dev.cube1.minecord.jda
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -34,7 +34,7 @@ class LogAppender: AbstractAppender("MinecordSRV", null, null, false, null) {
 
         while(queueMessage.size != 0) {
             val msg = queueMessage.poll()
-            jda!!.getTextChannelById(instance!!.config.getString("console-srv-channelId").toString())?.sendMessage(msg)?.queue()
+            jda.getTextChannelById(instance.config.getString("console_srv_channelId").toString())?.sendMessage(msg)?.queue()
         }
     }
 }

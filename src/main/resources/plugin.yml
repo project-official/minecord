@@ -1,7 +1,7 @@
 name: ${rootProject.name}
 version: ${rootProject.version}
-api-version: 1.17
-main: org.propercrew.minecord.Minecord
+api-version: 1.18
+main: dev.cube1.minecord.Minecord
 
 commands:
   invite:

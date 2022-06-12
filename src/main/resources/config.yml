@@ -1,54 +1,61 @@
 token: "" # The discord bot token
-channelId: "" # The id of main channel
+guild_id: "" # The id of main guild
+channel_id: "" # The id of main channel
 
-console-srv: false # Enable/Disable Console SRV
-console-srv-channelId: "" # The id of console channel
+console_srv: false # Enable/Disable Console SRV
+console_srv_channel_id: "" # The id of console channel
 
 invite_url: ""
 
 show_activity: true
 server_address: ""
 
-messageFormat: "<<light_purple><sender><reset>> <message>" # EX) <light_purple><sender><reset> : <message>
+message_format: "<<light_purple><sender><reset>> <message>" # EX) <light_purple><sender><reset> : <message>
 
-customColor: false
-supportMarkdown: true
+custom_color: true
+support_markdown: true
 
-styleOnlineCommand: 0
-NoMemberMessage: "사람이 없습니다."
+style_online_command: 0
+no_member_message: "사람이 없습니다."
 
 # Customizing is possible with Style 1.
-embedColor: 0x0070ff
-embedTitle: ":notepad_spiral: **온라인 유저**"
-embedField1: "인원:"
-embedField2: "목록:"
+embed_color: 0x0070ff
+embed_title: ":notepad_spiral: **온라인 유저**"
+embed_field_1: "인원:"
+embed_field_2: "목록:"
 
 # Formatter used to send from Minecraft Server to Discord
-startMessage: ":white_check_mark: **서버가 시작 되었습니다.**"
-stopMessage: ":stop_sign: **서버가 종료 되었습니다.**"
+start_message: ":white_check_mark: **서버가 시작 되었습니다.**"
+stop_message: ":stop_sign: **서버가 종료 되었습니다.**"
 
-chatFormat: "**<player>**: <message>"
-chatEmbedColor: 0x0070ff
-chatEmbedTitle: "**온라인 유저**"
+chat_format: "**<player>**: <message>"
+chat_embed_color: 0x0070ff
+chat_embed_title: "**온라인 유저**"
 
-accessEnable: true
-joinFormat: "<player>님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
-leaveFormat: "<player>님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
-joinEmbed: false
-leaveEmbed: false
-joinEmbedColor: 0x43b581
-leaveEmbedColor: 0xc14243
-joinEmbedTitle: ""
-leaveEmbedTitle: ""
+access_enable: true
+join_format: "<player>님이 게임에 들어왔습니다. 현재 플레이어 수: <online>/<max>명"
+leave_format: "<player>님이 게임에서 나갔습니다. 현재 플레이어 수: <online>/<max>명"
+join_embed: false
+leave_embed: false
+join_embed_color: 0x43b581
+leave_embed_color: 0xc14243
+join_embed_title: ""
+leave_embed_title: ""
 
-deathEnable: true
-deathFormat: "<player>님이 사망 하셨습니다."
-deathEmbed: false
-deathEmbedColor: 0x0
-deathEmbedTitle: ""
+death_enable: true
+death_format: "<player>님이 사망 하셨습니다."
+death_embed: false
+death_embed_color: 0x0
+death_embed_title: ""
 
-kickEnable: true
-kickFormat: "<player>님이 추방 되었습니다."
-kickEmbed: false
-kickEmbedColor: 0xc14243
-kickEmbedTitle: ""
+kick_enable: true
+kick_format: "<player>님이 추방 되었습니다."
+kick_embed: false
+kick_embed_color: 0xc14243
+kick_embed_title: ""
+
+advancement_enable: true
+advancement_format: "**<player>님이 <advancement>를 클리어 하였습니다.**"
+advancement_embed: false
+advancement_embed_color: 0x00DD00
+advancement_embed_title: ""
