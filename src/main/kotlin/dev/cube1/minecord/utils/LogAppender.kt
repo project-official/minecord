@@ -25,16 +25,18 @@ class LogAppender: AbstractAppender("MinecordSRV", null, null, false, null) {
 
         if(message.length >= 2000) {
             val split = message.lines()
-            for(msg in split) {
+            for (msg in split) {
                 queueMessage.add(msg)
             }
         } else {
             queueMessage.add(message)
         }
 
-        while(queueMessage.size != 0) {
+        while (queueMessage.size != 0) {
             val msg = queueMessage.poll()
-            jda.getTextChannelById(instance.config.getString("console_srv_channelId").toString())?.sendMessage(msg)?.queue()
+            val id: Long = instance.config.getString("console_srv_channel_id")!!.toLong()
+            val channel = jda.getTextChannelById(id)!!
+            channel.sendMessage(msg).queue()
         }
     }
 }

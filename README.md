@@ -5,6 +5,7 @@
 - Check discord ping latency
 - Check online people in minecraft server
 - use guild application command
+- ~~SRV Logger~~ `Not working`
 
 ### Configurations
 
