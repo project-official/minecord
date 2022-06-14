@@ -13,5 +13,5 @@
 ```yml
 ...
 
-message_format : "<red><sender><reset> : <message>"
+message_format : "<aqua><sender><reset> : <message>"
 ```
