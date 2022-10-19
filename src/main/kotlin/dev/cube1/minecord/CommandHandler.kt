@@ -9,11 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
-val commands = mutableListOf<CommandHandler>().also {
-    it += MinecordInfo
-    it += OnlineCommand
-    it += Ping
-}
+val commands = mutableListOf(MinecordInfo, OnlineCommand, Ping)
 
 fun registerEvents(builder: JDABuilder) {
     for (i in commands) {
@@ -32,7 +28,7 @@ fun registerEvents(builder: JDABuilder) {
 
 fun registerData(jda: JDA) {
     for (i in commands) {
-        jda.getGuildById("${instance.config.getString("guild_id")}")?.upsertCommand(i.data)!!.queue()
+        jda.upsertCommand(i.data).queue()
     }
 }
 
