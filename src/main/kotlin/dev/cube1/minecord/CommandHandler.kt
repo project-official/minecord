@@ -32,7 +32,7 @@ fun registerEvents(builder: JDABuilder) {
 
 fun registerData(jda: JDA) {
     for (i in commands) {
-        jda.getGuildById("${instance.config.getString("guild_id")}")?.upsertCommand(i.data)
+        jda.getGuildById("${instance.config.getString("guild_id")}")?.upsertCommand(i.data)!!.queue()
     }
 }
 
