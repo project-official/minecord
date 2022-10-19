@@ -12,7 +12,7 @@ import dev.cube1.minecord.instance
 object OnlineCommand: CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
-        "a",
+        "onlinef",
         "온라인 커맨드 입니다."
     ).toData())
 
