@@ -1,5 +1,9 @@
-/build
-/debug
-/.gradle
-/.idea
-/.server
+.fleet/
+.idea/
+.gradle/
+
+bin/
+build/
+**/build/
+
+.DS_Store
