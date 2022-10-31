@@ -52,7 +52,7 @@ class CorePlugin : JavaPlugin() {
     }
 
     override fun onDisable() {
-//        stopMessage()
+        stopMessage()
         jda.shutdown()
     }
 

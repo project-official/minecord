@@ -15,7 +15,7 @@ import org.bukkit.event.Listener
 object Chat : ListenerAdapter(), Listener {
     override fun onMessageReceived(event: MessageReceivedEvent) {
         if (event.author.isBot) return
-        if (event.message.channel.id != discord.channels.chat_id) return
+        if (event.channel.id != discord.channels.chat_id) return
         val fmt = FormatModule(Config.format.chat.mc).mcChat(event)
         Bukkit.broadcast(Component.text(fmt))
     }

@@ -46,56 +46,32 @@ class FormatModule(private val context: String) {
     }
 
     private fun markdown(str: String): String {
-        var setBold = false
-        var setItalic = false
-        var setUnderline = false
-        var setStrikethrough = false
+        var bool = false
         var md = ""
 
         var index = 0
         while (index <= str.length - 1) {
-            val value: String = str.slice(index until str.length)
-            when {
-                value.startsWith("**") -> {
-                    if (setBold) {
-                        setBold = false
-                        md += "${ChatColor.RESET}"
-                    } else {
-                        setBold = true
-                        md += "${ChatColor.BOLD}"
-                    }
+            fun parser(prefix: String, context: String) {
+                md += if (bool) {
+                    bool = false
+                    "${ChatColor.RESET}"
+                } else {
+                    bool = true
+                    context
+                }
 
-                    index += 2
-                }
-                value.startsWith("*") -> {
-                    if (setItalic) {
-                        setItalic = false
-                        md += "${ChatColor.RESET}"
-                    } else {
-                        setItalic = true
-                        md += "${ChatColor.ITALIC}"
-                    }
+                index += prefix.length
+            }
+
+            val value = str.slice(index until str.length)
+            when {
+                value.startsWith("**") -> parser("**", "${ChatColor.BOLD}")
+                value.startsWith("*") -> parser("*", "${ChatColor.ITALIC}")
+                value.startsWith("~~") -> parser("~~", "${ChatColor.STRIKETHROUGH}")
+                value.startsWith("__") -> parser("__", "${ChatColor.UNDERLINE}")
+                else -> {
                     index += 1
-                }
-                value.startsWith("~~") -> {
-                    if (setStrikethrough) {
-                        setStrikethrough = false
-                        md += "${ChatColor.RESET}"
-                    } else {
-                        setStrikethrough = true
-                        md += "${ChatColor.STRIKETHROUGH}"
-                    }
-                    index += 2
-                }
-                value.startsWith("__") -> {
-                    if (setUnderline) {
-                        setUnderline = false
-                        md += "${ChatColor.RESET}"
-                    } else {
-                        setUnderline = true
-                        md += "${ChatColor.UNDERLINE}"
-                    }
-                    index += 2
+                    md += value[0]
                 }
             }
         }

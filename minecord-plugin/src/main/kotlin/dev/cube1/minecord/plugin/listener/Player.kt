@@ -28,14 +28,8 @@ object Player : Listener {
 
     private fun style(event: Any, fmt: String, color: Int) {
         val player = when (event) {
-            is PlayerEvent -> {
-                event.player
-            }
-
-            is PlayerDeathEvent -> {
-                event.player
-            }
-
+            is PlayerEvent -> event.player
+            is PlayerDeathEvent -> event.player
             else -> throw IllegalStateException()
         }
 
