@@ -13,7 +13,7 @@ tasks {
     }
 
     create<Jar>("paperJar") {
-        archiveBaseName.set(project.name)
+        archiveBaseName.set(rootProject.name)
         archiveClassifier.set("")
         archiveVersion.set("")
 

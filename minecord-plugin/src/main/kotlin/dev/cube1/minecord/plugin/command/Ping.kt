@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.internal.interactions.CommandDataImpl
 
-object Ping: CommandHandler {
+object Ping : CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
         "ping",
@@ -33,7 +33,7 @@ object Ping: CommandHandler {
                 setFooter(event.user.asTag, event.user.avatarUrl)
             }
 
-            it.editOriginalEmbeds(embed.build())
+            it.editOriginalEmbeds(embed.build()).queue()
         }
     }
 }

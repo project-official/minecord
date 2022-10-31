@@ -9,7 +9,7 @@ import net.dv8tion.jda.internal.interactions.CommandDataImpl
 import org.bukkit.Bukkit
 import dev.cube1.minecord.plugin.instance
 
-object OnlineCommand: CommandHandler {
+object OnlineCommand : CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
         "online",

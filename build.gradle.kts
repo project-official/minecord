@@ -27,7 +27,6 @@ subprojects {
 
     dependencies {
         implementation(kotlin("stdlib"))
-        implementation(kotlin("reflection"))
         implementation("io.github.monun:kommand-api:2.14.0")
         implementation("net.dv8tion:JDA:5.0.0-alpha.22") {
             exclude(module = "opus-java")

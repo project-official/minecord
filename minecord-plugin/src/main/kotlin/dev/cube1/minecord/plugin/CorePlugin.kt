@@ -1,8 +1,13 @@
 package dev.cube1.minecord.plugin
 
 import dev.cube1.minecord.plugin.Config.discord
+import dev.cube1.minecord.plugin.Config.format
 import dev.cube1.minecord.plugin.Config.prefix
+import dev.cube1.minecord.plugin.command.MinecordInfo
+import dev.cube1.minecord.plugin.command.OnlineCommand
+import dev.cube1.minecord.plugin.command.Ping
 import dev.cube1.minecord.plugin.listener.Chat
+import dev.cube1.minecord.plugin.listener.Command
 import dev.cube1.minecord.plugin.listener.Player
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -13,6 +18,7 @@ lateinit var instance: CorePlugin
 class CorePlugin : JavaPlugin() {
     override fun onEnable() {
         instance = this
+
         saveDefaultConfig()
         try {
             Config.init()
@@ -26,6 +32,9 @@ class CorePlugin : JavaPlugin() {
 
         core = Minecord(discord.token).apply {
             addListeners(Chat)
+            addCommand(MinecordInfo)
+            addCommand(OnlineCommand)
+            addCommand(Ping)
         }
         core.build()
 
@@ -43,21 +52,17 @@ class CorePlugin : JavaPlugin() {
     }
 
     override fun onDisable() {
-        stopMessage()
+//        stopMessage()
         jda.shutdown()
     }
 
     private fun startMessage() {
-        val channel = jda.getTextChannelById(config.getString("channel_id")!!)
-        val message = config.getString("start_message")?: ":white_check_mark: **서버가 시작 되었습니다.**"
-
-        channel?.sendMessage(message)?.queue()
+        val chan = jda.getTextChannelById(discord.channels.chat_id)!!
+        chan.sendMessage(format.enable).queue()
     }
 
     private fun stopMessage() {
-        val channel = jda.getTextChannelById(config.getString("channel_id")!!)
-        val message = config.getString("stop_message")?: ":stop_sign: **서버가 종료 되었습니다.**"
-
-        channel?.sendMessage(message)?.queue()
+        val chan = jda.getTextChannelById(discord.channels.chat_id)!!
+        chan.sendMessage(format.disable).queue()
     }
 }

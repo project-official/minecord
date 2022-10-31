@@ -47,9 +47,7 @@ object Config {
                 advancement = getString("format.player.advancement")
                     ?: "{user}님이 {advancement}을(를) 클리어 하셨어요",
                 kick = getString("format.player.kick")
-                    ?: "{user}님이 추방 되었어요",
-                ban = getString("format.player.ban")
-                    ?: "{user}님이 차단 되었어요",
+                    ?: "{user}님이 추방 되었어요"
             )
         )
 
@@ -57,7 +55,8 @@ object Config {
             default = getInt("color.default"),
             join = getInt("color.join"),
             quit = getInt("color.quit"),
-            death = getInt("color.death")
+            death = getInt("color.death"),
+            kick = getInt("color.kick")
         )
     }
 
@@ -84,8 +83,7 @@ object Config {
             val quit: String,
             val death: String,
             val advancement: String,
-            val kick: String,
-            val ban: String
+            val kick: String
         )
         data class Format(
             val enable: String,
@@ -100,7 +98,8 @@ object Config {
             val default: Int,
             val join: Int,
             val quit: Int,
-            val death: Int
+            val death: Int,
+            val kick: Int
         )
     }
 }

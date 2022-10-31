@@ -38,7 +38,6 @@ object MinecordInfo : CommandHandler {
 
             event.reply(info).queue()
         } catch (e: Exception) {
-            event.reply("An error occurred while trying to get the info").queue()
             throw e
         }
     }

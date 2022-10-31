@@ -6,7 +6,10 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import org.bukkit.event.entity.PlayerDeathEvent
+import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerEvent
+import org.bukkit.event.player.PlayerKickEvent
 
 class FormatModule(private val context: String) {
     private val color = mutableMapOf(
@@ -120,12 +123,27 @@ class FormatModule(private val context: String) {
     fun access(event: PlayerEvent, leave: Boolean): String {
         return event.player.format(context).let {
             if (!leave) {
-                return@let it.replace("{online}", instance.server.onlinePlayers.toString())
+                return@let it.replace("{online}", instance.server.onlinePlayers.size.toString())
                     .replace("{max}", instance.server.maxPlayers.toString())
             }
 
-            it.replace("{online}", (instance.server.onlinePlayers - 1).toString())
+            it.replace("{online}", (instance.server.onlinePlayers.size - 1).toString())
                 .replace("{max}", instance.server.maxPlayers.toString())
         }
+    }
+
+    fun death(event: PlayerDeathEvent): String {
+        return event.player.format(context)
+    }
+
+    fun advancement(event: PlayerAdvancementDoneEvent): String {
+        return event.player.format(context).let {
+            val adv = PlainTextComponentSerializer.plainText().serialize(event.advancement.display!!.title())
+            it.replace("{advancement}", adv)
+        }
+    }
+
+    fun kick(event: PlayerKickEvent): String {
+        return event.player.format(context)
     }
 }
