@@ -1,5 +1,6 @@
 package dev.cube1.minecord
 
+import dev.cube1.minecord.plugin.instance
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.command.Command

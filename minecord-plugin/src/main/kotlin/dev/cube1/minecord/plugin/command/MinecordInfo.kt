@@ -1,12 +1,12 @@
-package dev.cube1.minecord.commands
+package dev.cube1.minecord.plugin.command
 
-import dev.cube1.minecord.CommandHandler
+import dev.cube1.minecord.plugin.util.command.model.CommandHandler
 import net.dv8tion.jda.api.JDAInfo
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.internal.interactions.CommandDataImpl
 import org.bukkit.Bukkit
-import dev.cube1.minecord.instance
+import dev.cube1.minecord.plugin.instance
 import java.lang.management.ManagementFactory
 
 object MinecordInfo : CommandHandler {
