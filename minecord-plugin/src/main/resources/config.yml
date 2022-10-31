@@ -3,11 +3,14 @@ discord:
   guild_id: "" # target guild id
   channels:
     chat_id: "" # target channel id
+    srv_id: "" # SRV logging not working
 
 settings:
   activity:
     enable: true
     context: "Minecord" # activity string
+  srv:
+    enable: false # not working
   style: 0
 
 format:

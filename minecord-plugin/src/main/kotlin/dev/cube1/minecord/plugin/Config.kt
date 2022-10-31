@@ -14,7 +14,8 @@ object Config {
             token = getString("discord.token")!!,
             guild_id = getString("discord.guild_id")!!,
             ConfigModel.Channels(
-                chat_id = getString("discord.channels.chat_id")!!
+                chat_id = getString("discord.channels.chat_id")!!,
+                srv_id = getString("discord.channels.srv_id")!!
             )
         )
         settings = ConfigModel.Settings(
@@ -22,6 +23,7 @@ object Config {
                 enable = getBoolean("settings.activity.enable"),
                 context = getString("settings.activity.context") ?: "Minecord"
             ),
+            srv = ConfigModel.SRV(enable = getBoolean("settings.srv.enable")),
             style = getInt("settings.style")
         )
         format = ConfigModel.Format(
@@ -62,7 +64,7 @@ object Config {
 
     object ConfigModel {
         // Discord
-        data class Channels(val chat_id: String)
+        data class Channels(val chat_id: String, val srv_id: String)
         data class Discord(
             val token: String,
             val guild_id: String,
@@ -71,8 +73,10 @@ object Config {
 
         // Settings
         data class Activity(val enable: Boolean, val context: String)
+        data class SRV(val enable: Boolean)
         data class Settings(
             val activity: Activity,
+            val srv: SRV,
             val style: Int
         )
 

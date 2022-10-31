@@ -33,5 +33,6 @@ subprojects {
         }
 
         compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
+        compileOnly("org.apache.logging.log4j:log4j-core:2.19.0")
     }
 }
