@@ -19,6 +19,7 @@ object Config {
             )
         )
         settings = ConfigModel.Settings(
+            custom_message = getBoolean("settings.custom_message"),
             activity = ConfigModel.Activity(
                 enable = getBoolean("settings.activity.enable"),
                 context = getString("settings.activity.context") ?: "Minecord"
@@ -75,6 +76,7 @@ object Config {
         data class Activity(val enable: Boolean, val context: String)
         data class SRV(val enable: Boolean)
         data class Settings(
+            val custom_message: Boolean,
             val activity: Activity,
             val srv: SRV,
             val style: Int

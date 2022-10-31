@@ -51,10 +51,12 @@ object Player : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         val fmt = FormatModule(format.player.join).access(event, leave = false)
-        event.joinMessage(indicator(char = '+', color.join).append(Component.text(
-            event.player.name,
-            NamedTextColor.YELLOW
-        )))
+        if (settings.custom_message) {
+            event.joinMessage(indicator(char = '+', color.join).append(Component.text(
+                event.player.name,
+                NamedTextColor.YELLOW
+            )))
+        }
 
         style(event, fmt, color.join)
     }
@@ -62,21 +64,25 @@ object Player : Listener {
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
         val fmt = FormatModule(format.player.quit).access(event, leave = true)
-        event.quitMessage(indicator(char = '-', color.quit).append(Component.text(
-            event.player.name,
-            NamedTextColor.YELLOW
-        )))
+        if (settings.custom_message) {
+            event.quitMessage(indicator(char = '-', color.quit).append(Component.text(
+                event.player.name,
+                NamedTextColor.YELLOW
+            )))
+        }
 
         style(event, fmt, color.quit)
     }
 
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
-        val fmt = FormatModule(format.player.join).death(event)
-        event.deathMessage(indicator(char = 'X', color.death).append(Component.text(
-            event.player.name,
-            NamedTextColor.YELLOW
-        )))
+        val fmt = FormatModule(format.player.death).death(event)
+        if (settings.custom_message) {
+            event.deathMessage(indicator(char = 'X', color.death).append(Component.text(
+                event.player.name,
+                NamedTextColor.YELLOW
+            )))
+        }
 
         style(event, fmt, color.death)
     }
@@ -91,10 +97,12 @@ object Player : Listener {
     @EventHandler
     fun onPlayerKick(event: PlayerKickEvent) {
         val fmt = FormatModule(format.player.kick).kick(event)
-        event.leaveMessage(indicator(char = 'K', color.kick).append(Component.text(
-            event.player.name,
-            NamedTextColor.YELLOW
-        )))
+        if (settings.custom_message) {
+            event.leaveMessage(indicator(char = 'K', color.kick).append(Component.text(
+                event.player.name,
+                NamedTextColor.YELLOW
+            )))
+        }
 
         style(event, fmt, color.kick)
     }

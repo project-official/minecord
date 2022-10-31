@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "dev.cube1"
-version = "3.0.0"
+version = "3.0.0-BETA"
 
 allprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
