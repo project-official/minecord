@@ -13,7 +13,7 @@ object MinecordInfo : CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
         "info",
-        "마인코드 정보 입니다."
+        "마인코드 정보예요"
     ).toData())
 
     override fun execute(event: SlashCommandInteractionEvent) {

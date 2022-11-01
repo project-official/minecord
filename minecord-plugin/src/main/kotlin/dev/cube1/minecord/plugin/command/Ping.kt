@@ -10,7 +10,7 @@ object Ping : CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
         "ping",
-        "API 레이턴시를 확인합니다."
+        "API 레이턴시를 확인할 수 있어요"
     ).toData())
 
     override fun execute(event: SlashCommandInteractionEvent) {

@@ -1,5 +1,7 @@
 package dev.cube1.minecord.plugin.command
 
+import dev.cube1.minecord.plugin.Config.color
+import dev.cube1.minecord.plugin.Config.discord
 import dev.cube1.minecord.plugin.Config.format
 import dev.cube1.minecord.plugin.Config.settings
 import dev.cube1.minecord.plugin.util.command.model.CommandHandler
@@ -13,12 +15,16 @@ object OnlineCommand : CommandHandler {
 
     override var data: CommandData = CommandData.fromData(CommandDataImpl(
         "online",
-        "온라인 커맨드 입니다."
+        "현재 접속해 있는 유저의 리스트를 확인해볼 수 있어요"
     ).toData())
 
     override fun execute(event: SlashCommandInteractionEvent) {
+        if (event.channel.id != discord.channels.chat_id) {
+            return event.reply(format.channel).setEphemeral(true).queue()
+        }
+
         val current = Bukkit.getOnlinePlayers()
-        val status = "`${current}/${Bukkit.getMaxPlayers()}명`"
+        val status = "`${current.size}/${Bukkit.getMaxPlayers()}명`"
         fun online(): String {
             var str = "```\n"
             if (current.isNotEmpty()) {
@@ -48,6 +54,7 @@ object OnlineCommand : CommandHandler {
                     addField("**인원**", status, false)
                     addField("**플레이어**", online(), false)
                     setFooter(event.user.asTag, event.user.avatarUrl ?: event.user.defaultAvatarUrl)
+                    setColor(color.default)
                 }.build()
 
                 event.replyEmbeds(embed).queue()

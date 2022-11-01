@@ -34,6 +34,8 @@ object Config {
                 ?: "\uD83D\uDED1 서버가 비활성화 되었어요",
             online = getString("format.online")
                 ?: "현재 서버에 사람이 없어요",
+            channel = getString("format.channel")
+                ?: "설정된 채널에서만 이 명령어를 사용하실 수 있어요",
             error = getString("format.error")
                 ?: "명령어 실행 도중에 오류가 발생 했어요",
             chat = ConfigModel.Chat(
@@ -97,6 +99,7 @@ object Config {
             val enable: String,
             val disable: String,
             val online: String,
+            val channel: String,
             val error: String,
             val chat: Chat,
             val player: Player
