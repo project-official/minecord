@@ -9,9 +9,11 @@ import dev.cube1.minecord.plugin.command.Ping
 import dev.cube1.minecord.plugin.listener.Chat
 import dev.cube1.minecord.plugin.listener.Command
 import dev.cube1.minecord.plugin.listener.Player
+import net.dv8tion.jda.api.JDA
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
+lateinit var jda: JDA
 lateinit var core: Minecord
 lateinit var instance: CorePlugin
 
@@ -31,7 +33,7 @@ class CorePlugin : JavaPlugin() {
         logger.info("$prefix Config initializing complete")
 
         core = Minecord(discord.token).apply {
-            addListeners(Chat)
+            addListener(Chat)
             addCommand(MinecordInfo)
             addCommand(OnlineCommand)
             addCommand(Ping)
