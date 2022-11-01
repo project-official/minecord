@@ -1,52 +1,38 @@
 plugins {
-    kotlin("jvm") version "1.7.0"
-    id("com.github.johnrengelman.shadow") version "7.1.2"
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
+    kotlin("jvm") version "1.7.20"
 }
 
 group = "dev.cube1"
-version = "2.0.1"
+version = "3.0.0-BETA"
 
-repositories {
-    mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/")
-    maven("https://m2.dv8tion.net/releases")
-    maven("https://jitpack.io")
-    mavenLocal()
+allprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+
+    java.toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
-    implementation(kotlin("stdlib"))
-    implementation("net.dv8tion:JDA:5.0.0-alpha.12") {
-        exclude(module="opus-java")
-    }
-    compileOnly("org.apache.logging.log4j:log4j-core:2.17.2")
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
-}
+subprojects {
+    repositories {
+        mavenCentral()
+        mavenLocal()
 
-tasks {
-    compileJava {
-        options.encoding = "UTF-8"
+        maven("https://papermc.io/repo/repository/maven-public/")
     }
 
-    compileKotlin {
-        kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
-    }
-
-    processResources {
-        filesMatching("*.yml") {
-            expand(project.properties)
+    dependencies {
+        implementation(kotlin("stdlib"))
+        implementation("io.github.monun:kommand-api:2.14.0")
+        implementation("net.dv8tion:JDA:5.0.0-alpha.22") {
+            exclude(module = "opus-java")
         }
-    }
 
-    shadowJar {
-        archiveBaseName.set(project.name)
-        archiveVersion.set("")
-        archiveClassifier.set("")
+        compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
+        compileOnly("org.apache.logging.log4j:log4j-core:2.19.0")
     }
 }
