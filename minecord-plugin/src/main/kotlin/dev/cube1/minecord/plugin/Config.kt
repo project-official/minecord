@@ -32,6 +32,8 @@ object Config {
                 ?: "\uD83C\uDFC1 서버가 활성화 되었어요",
             disable = getString("format.disable")
                 ?: "\uD83D\uDED1 서버가 비활성화 되었어요",
+            online = getString("format.online")
+                ?: "현재 서버에 사람이 없어요",
             error = getString("format.error")
                 ?: "명령어 실행 도중에 오류가 발생 했어요",
             chat = ConfigModel.Chat(
@@ -94,6 +96,7 @@ object Config {
         data class Format(
             val enable: String,
             val disable: String,
+            val online: String,
             val error: String,
             val chat: Chat,
             val player: Player

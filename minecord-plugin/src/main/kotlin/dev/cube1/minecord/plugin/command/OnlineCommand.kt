@@ -1,13 +1,13 @@
 package dev.cube1.minecord.plugin.command
 
+import dev.cube1.minecord.plugin.Config.format
+import dev.cube1.minecord.plugin.Config.settings
 import dev.cube1.minecord.plugin.util.command.model.CommandHandler
 import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.internal.interactions.CommandDataImpl
 import org.bukkit.Bukkit
-import dev.cube1.minecord.plugin.instance
 
 object OnlineCommand : CommandHandler {
 
@@ -17,54 +17,40 @@ object OnlineCommand : CommandHandler {
     ).toData())
 
     override fun execute(event: SlashCommandInteractionEvent) {
-        if (event.channel.id == instance.config.getString("channel_id")) {
-            val noMember: String? = instance.config.getString("no_member_message")
-            when (instance.config.getInt("style_online_command")) {
-                0 -> {
-                    var memberStr = "**온라인 유저** : \n```"
-                    memberStr += "인원: ${Bukkit.getOnlinePlayers().size}명/${Bukkit.getMaxPlayers()}명\n"
-                    if (Bukkit.getOnlinePlayers().isNotEmpty()) {
-                        for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
-                            memberStr += "$i: ${player.name}\n"
-                        }
-                    } else {
-                        memberStr += "${noMember ?: "사람이 없습니다."}\n"
-                    }
-                    memberStr += "```"
-
-                    event.reply(memberStr).queue()
+        val current = Bukkit.getOnlinePlayers()
+        val status = "`${current}/${Bukkit.getMaxPlayers()}명`"
+        fun online(): String {
+            var str = "```\n"
+            if (current.isNotEmpty()) {
+                for ((i, j) in current.withIndex()) {
+                    str += "${i + 1}: ${j.name}\n"
                 }
+            } else {
+                str += "${format.online}\n"
+            }
+            str += "```\n"
 
-                1 -> {
-                    val title: String?  = instance.config.getString("embed_title")
-                    val color: Int      = instance.config.getInt("embed_color")
-                    val field1: String? = instance.config.getString("embed_field_1")
-                    val field2: String? = instance.config.getString("embed_field_2")
+            return str
+        }
 
-                    val embed = EmbedBuilder().setTitle(title ?: "**온라인 유저**")
-                        .setColor(color)
-                        .addField(
-                            field1 ?: "인원:",
-                            "${Bukkit.getOnlinePlayers().size}명/${Bukkit.getMaxPlayers()}명",
-                            false
-                        )
+        when (settings.style) {
+            0 -> {
+                var msg = "**온라인 유저**:\n"
+                msg += "$status\n"
+                msg += online()
 
-                    var memberStr = "```\n"
-                    if (Bukkit.getOnlinePlayers().isNotEmpty()) {
-                        for ((i, player) in Bukkit.getOnlinePlayers().withIndex()) {
-                            memberStr += "${i + 1} 번째: ${player.name} 월드위치: ${player.world.name}\n"
-                        }
-                    } else {
-                        memberStr += "${noMember ?: "사람이 없습니다."}\n"
-                    }
-                    memberStr += "```"
+                event.reply(msg).queue()
+            }
 
-                    embed.addField(field2 ?: "목록:", memberStr, false)
-                        .setFooter(event.user.asTag, event.user.avatarUrl)
+            1 -> {
+                val embed = EmbedBuilder().apply {
+                    setTitle("\uD83D\uDDD2️ **온라인 유저 리스트**")
+                    addField("**인원**", status, false)
+                    addField("**플레이어**", online(), false)
+                    setFooter(event.user.asTag, event.user.avatarUrl ?: event.user.defaultAvatarUrl)
+                }.build()
 
-                    val result: MessageEmbed = embed.build()
-                    event.replyEmbeds(result).queue()
-                }
+                event.replyEmbeds(embed).queue()
             }
         }
     }
