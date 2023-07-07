@@ -3,6 +3,7 @@ package dev.cube1.minecord.plugin.util
 import dev.cube1.minecord.plugin.instance
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.utils.MarkdownSanitizer
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -81,7 +82,7 @@ class FormatModule(private val context: String) {
 
     private fun Player.format(str: String): String {
         return str
-            .replace("{user}", name)
+            .replace("{user}", MarkdownSanitizer.escape(name))
             .replace("{exp}", exp.toString())
             .replace("{level}", level.toString())
     }
