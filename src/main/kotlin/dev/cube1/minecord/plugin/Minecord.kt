@@ -1,15 +1,18 @@
 package dev.cube1.minecord.plugin
 
-import dev.cube1.minecord.plugin.Config.settings
-import dev.cube1.minecord.plugin.listener.Command
-import dev.cube1.minecord.plugin.util.command.CommandManager
-import dev.cube1.minecord.plugin.util.command.model.CommandHandler
+import com.google.common.collect.ArrayListMultimap
+import com.google.common.collect.Multimap
+import dev.cube1.minecord.plugin.listener.MinecordListener
+import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.dv8tion.jda.api.requests.GatewayIntent
-import org.bukkit.Bukkit
 
-class Minecord(token: String) {
+class Minecord(private val plugin: CorePlugin, token: String) {
+
+    lateinit var jda: JDA
+        private set
+
     private val builder = JDABuilder.createLight(token, listOf(
         GatewayIntent.GUILD_PRESENCES,
         GatewayIntent.GUILD_MEMBERS,
@@ -18,25 +21,27 @@ class Minecord(token: String) {
         GatewayIntent.MESSAGE_CONTENT
     ))
 
-    fun addListener(listener: Any) {
-        builder.addEventListeners(listener)
+    fun start() {
+        if (::jda.isInitialized) {
+            throw UnsupportedOperationException("Cannot make JDA instance twice.")
+        }
+        jda = builder.build()
     }
 
-    fun addCommand(command: CommandHandler) {
-        CommandManager.commands += command
+    fun stop() {
+        if (::jda.isInitialized) {
+            jda.shutdown()
+        }
     }
 
-    fun reloadModule() {
+    fun reload() {
         jda.shutdown()
         jda = builder.build()
     }
 
-    fun build() {
-        builder.addEventListeners(Command)
-        builder.setActivity(Activity.playing(settings.activity.context))
-        jda = builder.build()
-        Bukkit.getScheduler().runTaskAsynchronously(instance, Runnable {
-            CommandManager.registerData()
-        })
+    fun addListener(listener: MinecordListener) {
+        builder.addEventListeners(listener)
+        plugin.server.pluginManager.registerEvents(listener, plugin)
     }
+
 }

@@ -1,6 +1,7 @@
 discord:
   token: "" # discord bot token
   guild_id: "" # target guild id
+  webhook_url: "" # discord webhook url
   channels:
     chat_id: "" # target channel id
     srv_id: "" # SRV logging not working

@@ -1,5 +1,27 @@
-group = rootProject.group
-version = rootProject.version
+plugins {
+    kotlin("jvm")
+}
+
+val kotlinVersion: String by project
+val jdaVersion: String by project
+val minecraftVersion: String by project
+val webhooksVersion: String by project
+val adventureVersion: String by project
+
+group = "dev.cube1"
+version = "4.0.0"
+
+repositories {
+    maven("https://repo.papermc.io/repository/maven-public/")
+}
+
+dependencies {
+    implementation(kotlin("stdlib"))
+    implementation("net.dv8tion:JDA:${jdaVersion}")
+    implementation("club.minnced:discord-webhooks:${webhooksVersion}")
+    implementation("dev.vankka:mcdiscordreserializer:4.3.0")
+    compileOnly("io.papermc.paper:paper-api:${minecraftVersion}-R0.1-SNAPSHOT")
+}
 
 tasks {
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

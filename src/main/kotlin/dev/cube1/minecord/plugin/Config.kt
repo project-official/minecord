@@ -9,14 +9,15 @@ object Config {
     lateinit var format: ConfigModel.Format
     lateinit var color: ConfigModel.Color
 
-    fun init() = instance.config.apply {
+    fun init() = CorePlugin.instance.config.apply {
         discord = ConfigModel.Discord(
             token = getString("discord.token")!!,
             guild_id = getString("discord.guild_id")!!,
             ConfigModel.Channels(
                 chat_id = getString("discord.channels.chat_id")!!,
                 srv_id = getString("discord.channels.srv_id")!!
-            )
+            ),
+            webhook_url = getString("discord.webhook_url")!!
         )
         settings = ConfigModel.Settings(
             custom_message = getBoolean("settings.custom_message"),
@@ -73,7 +74,8 @@ object Config {
         data class Discord(
             val token: String,
             val guild_id: String,
-            val channels: Channels
+            val channels: Channels,
+            val webhook_url: String,
         )
 
         // Settings

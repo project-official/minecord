@@ -1,3 +1,8 @@
 rootProject.name = "minecord"
-include("minecord-plugin")
-include("minecord-api")
+
+pluginManagement {
+    val kotlinVersion: String by settings
+    plugins {
+        kotlin("jvm") version kotlinVersion
+    }
+}
