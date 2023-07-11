@@ -3,6 +3,7 @@ package dev.cube1.minecord.plugin
 
 import dev.cube1.minecord.plugin.Config.prefix
 import dev.cube1.minecord.plugin.listener.ChatListener
+import dev.cube1.minecord.plugin.listener.PlayerListener
 import net.dv8tion.jda.api.JDA
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -27,7 +28,10 @@ class CorePlugin : JavaPlugin() {
         logger.info("$prefix Config initializing complete")
 
         minecord = Minecord(this, Config.discord.token)
+
         minecord.addListener(ChatListener())
+        minecord.addListener(PlayerListener())
+
         minecord.start()
 
     }

@@ -13,9 +13,9 @@ import org.bukkit.event.EventHandler
 
 class ChatListener : MinecordListener() {
 
-    val client = WebhookClientBuilder(Config.discord.webhook_url).buildJDA()
-
     override fun onMessageReceived(event: MessageReceivedEvent) {
+        if (event.author.globalName == null) return
+
         val message = MinecraftSerializer.INSTANCE.serialize(event.message.contentDisplay)
         val fullMessage = Component.text()
             .append(Component.text(event.author.globalName!!))
@@ -37,7 +37,8 @@ class ChatListener : MinecordListener() {
             setAvatarUrl(avatar)
             setContent(message)
         }.build()
-        client.send(discordMessage)
+
+        minecord.webhookClient.send(discordMessage)
     }
 
 }
