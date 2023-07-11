@@ -2,6 +2,7 @@ package dev.cube1.minecord.plugin.listener
 
 import dev.cube1.minecord.plugin.Config
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.kyori.adventure.text.Component
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerJoinEvent
@@ -11,6 +12,10 @@ class PlayerListener : MinecordListener() {
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+        val discordChannel = jda.getTextChannelById(Config.discord.channels.chat_id)
+
+        discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size}/${plugin.server.maxPlayers}")?.queue()
+
         // TODO Need Update
 
         if (Config.settings.custom_message) {
@@ -35,6 +40,11 @@ class PlayerListener : MinecordListener() {
 
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
+        val discordChannel = jda.getTextChannelById(Config.discord.channels.chat_id)
+
+        discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size-1}/${plugin.server.maxPlayers}")?.queue()
+
+
         // TODO Need Update
 
         if (Config.settings.custom_message) {
@@ -47,7 +57,7 @@ class PlayerListener : MinecordListener() {
 
         val embed = EmbedBuilder()
             .setAuthor(
-                "${event.player.name}님이 게임에서 나갔습니다. 현재 플레이어 수: ${plugin.server.onlinePlayers.size}/${plugin.server.maxPlayers}명",
+                "${event.player.name}님이 게임에서 나갔습니다. 현재 플레이어 수: ${plugin.server.onlinePlayers.size-1}/${plugin.server.maxPlayers}명",
                 null,
                 "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true"
             )

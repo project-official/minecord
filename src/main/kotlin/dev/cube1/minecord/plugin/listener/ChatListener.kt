@@ -15,6 +15,7 @@ class ChatListener : MinecordListener() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
         if (event.author.globalName == null) return
+        if (event.channel.id != Config.discord.channels.chat_id) return
 
         val message = MinecraftSerializer.INSTANCE.serialize(event.message.contentDisplay)
         val fullMessage = Component.text()

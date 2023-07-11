@@ -18,7 +18,9 @@ class Minecord(private val plugin: CorePlugin, token: String) {
         GatewayIntent.GUILD_MEMBERS,
         GatewayIntent.GUILD_MESSAGES,
         GatewayIntent.DIRECT_MESSAGES,
-        GatewayIntent.MESSAGE_CONTENT
+        GatewayIntent.MESSAGE_CONTENT,
+        GatewayIntent.GUILD_WEBHOOKS,
+        GatewayIntent.GUILD_MODERATION
     ))
 
     fun start() {
