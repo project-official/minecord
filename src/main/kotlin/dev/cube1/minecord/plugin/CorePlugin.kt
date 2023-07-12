@@ -2,6 +2,7 @@ package dev.cube1.minecord.plugin
 
 
 import dev.cube1.minecord.plugin.Config.prefix
+import dev.cube1.minecord.plugin.command.OnlineCommandHandler
 import dev.cube1.minecord.plugin.listener.ChatListener
 import dev.cube1.minecord.plugin.listener.PlayerListener
 import net.dv8tion.jda.api.JDA
@@ -12,6 +13,8 @@ class CorePlugin : JavaPlugin() {
     companion object {
         lateinit var instance: CorePlugin
         lateinit var minecord: Minecord
+
+        fun isMinecordInitialized() = ::minecord.isInitialized
     }
 
     override fun onEnable() {
@@ -27,16 +30,22 @@ class CorePlugin : JavaPlugin() {
         }
         logger.info("$prefix Config initializing complete")
 
-        minecord = Minecord(this, Config.discord.token)
+        val options = Minecord.MinecordOption(
+            minecordListeners = listOf(
+                ChatListener(),
+                PlayerListener()
+            ),
+            minecordCommandHandlers = listOf(
+                OnlineCommandHandler()
+            )
+        )
 
-        minecord.addListener(ChatListener())
-        minecord.addListener(PlayerListener())
-
-        minecord.start()
-
+         minecord = Minecord(this, Config.discord.token, options)
     }
 
     override fun onDisable() {
-        minecord.stop()
+        if (isMinecordInitialized()) {
+            minecord.stop()
+        }
     }
 }

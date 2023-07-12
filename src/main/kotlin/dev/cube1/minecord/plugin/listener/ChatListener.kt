@@ -10,21 +10,23 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import org.bukkit.event.EventHandler
+import java.lang.IllegalStateException
 
 class ChatListener : MinecordListener() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (event.author.globalName == null) return
-        if (event.channel.id != Config.discord.channels.chat_id) return
+        try {
+            if (event.author.globalName == null || event.channel.id != Config.discord.channels.chat_id) return
+            val message = MinecraftSerializer.INSTANCE.serialize(event.message.contentDisplay)
+            val fullMessage = Component.text()
+                .append(Component.text(event.author.globalName!!))
+                .append(Component.text(": "))
+                .append(message)
+                .build()
 
-        val message = MinecraftSerializer.INSTANCE.serialize(event.message.contentDisplay)
-        val fullMessage = Component.text()
-            .append(Component.text(event.author.globalName!!))
-            .append(Component.text(": "))
-            .append(message)
-            .build()
+            plugin.server.broadcast(fullMessage)
+        } catch (ignore: IllegalStateException) {}
 
-        plugin.server.broadcast(fullMessage)
     }
 
     @EventHandler
