@@ -2,6 +2,7 @@ package dev.cube1.minecord.plugin
 
 
 import dev.cube1.minecord.plugin.Config.prefix
+import dev.cube1.minecord.plugin.command.MinecordInfoCommandHandler
 import dev.cube1.minecord.plugin.command.OnlineCommandHandler
 import dev.cube1.minecord.plugin.listener.ChatListener
 import dev.cube1.minecord.plugin.listener.PlayerListener
@@ -36,7 +37,8 @@ class CorePlugin : JavaPlugin() {
                 PlayerListener()
             ),
             minecordCommandHandlers = listOf(
-                OnlineCommandHandler()
+                OnlineCommandHandler(),
+                MinecordInfoCommandHandler()
             )
         )
 
