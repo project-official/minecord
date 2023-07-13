@@ -8,6 +8,7 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerKickEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerListener : MinecordListener() {
@@ -41,10 +42,30 @@ class PlayerListener : MinecordListener() {
         minecord.webhookClient.send(embed)
     }
 
+    /**
+     * Player Quit and Player Ban
+     */
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
         discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size-1}/${plugin.server.maxPlayers}")?.queue()
 
+        if (event.player.isBanned) {
+            val message = Component.text()
+                .append(event.player.name())
+                .append(Component.text("님이 차단되셨어요"))
+                .build()
+            if (Config.settings.custom_message) {
+                event.quitMessage(message)
+            }
+
+            val embed = EmbedBuilder()
+                .setAuthor(PlainTextComponentSerializer.plainText().serialize(message), null, "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true")
+                .setColor(Config.color.default)
+                .build()
+
+            minecord.webhookClient.send(embed)
+            return
+        }
 
         // TODO Need Update
 
@@ -75,6 +96,24 @@ class PlayerListener : MinecordListener() {
         val advancement = PlainTextComponentSerializer.plainText().serialize(event.advancement.display!!.title())
         val embed = EmbedBuilder()
             .setAuthor("${event.player.name}님이 ${advancement}를 클리어 하셨어요", null,  "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true")
+            .setColor(Config.color.default)
+            .build()
+
+        minecord.webhookClient.send(embed)
+    }
+
+    @EventHandler
+    fun onPlayerKicked(event: PlayerKickEvent) {
+        val message = Component.text()
+            .append(event.player.name())
+            .append(Component.text("님이 추방되셨어요"))
+            .build()
+        if (Config.settings.custom_message) {
+            event.leaveMessage(message)
+        }
+
+        val embed = EmbedBuilder()
+            .setAuthor(PlainTextComponentSerializer.plainText().serialize(message), null, "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true")
             .setColor(Config.color.default)
             .build()
 
