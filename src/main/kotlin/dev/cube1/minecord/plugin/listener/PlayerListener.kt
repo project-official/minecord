@@ -4,15 +4,18 @@ import dev.cube1.minecord.plugin.Config
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.event.EventHandler
+import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerListener : MinecordListener() {
 
+    val discordChannel by  lazy { jda.getTextChannelById(Config.discord.channels.chat_id) }
+
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        val discordChannel = jda.getTextChannelById(Config.discord.channels.chat_id)
 
         discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size}/${plugin.server.maxPlayers}")?.queue()
 
@@ -40,8 +43,6 @@ class PlayerListener : MinecordListener() {
 
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        val discordChannel = jda.getTextChannelById(Config.discord.channels.chat_id)
-
         discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size-1}/${plugin.server.maxPlayers}")?.queue()
 
 
@@ -62,6 +63,19 @@ class PlayerListener : MinecordListener() {
                 "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true"
             )
             .setColor(Config.color.quit)
+            .build()
+
+        minecord.webhookClient.send(embed)
+    }
+
+    @EventHandler
+    fun onPlayerAdvancementComplete(event: PlayerAdvancementDoneEvent) {
+        if (event.advancement.key.key.contains("recipes/")) return
+
+        val advancement = PlainTextComponentSerializer.plainText().serialize(event.advancement.display!!.title())
+        val embed = EmbedBuilder()
+            .setAuthor("${event.player.name}님이 ${advancement}를 클리어 하셨어요", null,  "${Config.render}/avatars/${event.player.uniqueId}?size=64&overlay=true")
+            .setColor(Config.color.default)
             .build()
 
         minecord.webhookClient.send(embed)
