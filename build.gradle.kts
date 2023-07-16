@@ -7,6 +7,7 @@ val jdaVersion: String by project
 val minecraftVersion: String by project
 val webhooksVersion: String by project
 val adventureVersion: String by project
+val mcdiscordreserializerVersion: String by project
 
 group = "dev.cube1"
 version = "4.0.0"
@@ -17,9 +18,9 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation("net.dv8tion:JDA:${jdaVersion}")
-    implementation("club.minnced:discord-webhooks:${webhooksVersion}")
-    implementation("dev.vankka:mcdiscordreserializer:4.3.0")
+    implementation("net.dv8tion:JDA:$jdaVersion")
+    implementation("club.minnced:discord-webhooks:$webhooksVersion")
+    implementation("dev.vankka:mcdiscordreserializer:$mcdiscordreserializerVersion")
     compileOnly("io.papermc.paper:paper-api:${minecraftVersion}-R0.1-SNAPSHOT")
 }
 

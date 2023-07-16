@@ -8,4 +8,4 @@ libraries:
   - org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}
   - org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}
   - club.minnced:discord-webhooks:${webhooksVersion}
-  - dev.vankka:mcdiscordreserializer:4.3.0
+  - dev.vankka:mcdiscordreserializer:${mcdiscordreserializerVersion}
