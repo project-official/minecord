@@ -1,38 +1,45 @@
 plugins {
-    kotlin("jvm") version "1.7.20"
+    kotlin("jvm")
 }
+
+val kotlinVersion: String by project
+val jdaVersion: String by project
+val minecraftVersion: String by project
+val webhooksVersion: String by project
+val adventureVersion: String by project
+val mcdiscordreserializerVersion: String by project
 
 group = "dev.cube1"
-version = "3.0.0-BETA"
+version = "4.0.0"
 
-allprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-
-    java.toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-
-    repositories {
-        mavenCentral()
-    }
+repositories {
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
-subprojects {
-    repositories {
-        mavenCentral()
-        mavenLocal()
+dependencies {
+    implementation(kotlin("stdlib"))
+    implementation("net.dv8tion:JDA:$jdaVersion")
+    implementation("club.minnced:discord-webhooks:$webhooksVersion")
+    implementation("dev.vankka:mcdiscordreserializer:$mcdiscordreserializerVersion")
+    compileOnly("io.papermc.paper:paper-api:${minecraftVersion}-R0.1-SNAPSHOT")
+}
 
-        maven("https://papermc.io/repo/repository/maven-public/")
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "17"
     }
 
-    dependencies {
-        implementation(kotlin("stdlib"))
-        implementation("io.github.monun:kommand-api:2.14.0")
-        implementation("net.dv8tion:JDA:5.0.0-alpha.22") {
-            exclude(module = "opus-java")
+    processResources {
+        filesMatching("plugin.yml") {
+            expand(project.properties)
         }
+    }
 
-        compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
-        compileOnly("org.apache.logging.log4j:log4j-core:2.19.0")
+    create<Jar>("paperJar") {
+        archiveBaseName.set(rootProject.name)
+        archiveClassifier.set("")
+        archiveVersion.set("")
+
+        from(sourceSets["main"].output)
     }
 }

@@ -1,0 +1,11 @@
+name: ${rootProject.name}
+version: ${rootProject.version}
+api-version: 1.20
+main: dev.cube1.minecord.plugin.CorePlugin
+
+libraries:
+  - net.dv8tion:JDA:${jdaVersion}
+  - org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}
+  - org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}
+  - club.minnced:discord-webhooks:${webhooksVersion}
+  - dev.vankka:mcdiscordreserializer:${mcdiscordreserializerVersion}
