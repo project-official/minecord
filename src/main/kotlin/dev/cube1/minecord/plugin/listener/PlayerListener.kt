@@ -49,8 +49,6 @@ class PlayerListener : MinecordListener() {
     fun onPlayerQuit(event: PlayerQuitEvent) {
         discordChannel?.manager?.setTopic("서버 인원 : ${plugin.server.onlinePlayers.size-1}/${plugin.server.maxPlayers}")?.queue()
 
-        // Invoking ClassCastException
-        // Check https://github.com/PaperMC/Paper/issues/9455
          if (event.player.isBanned) {
             val message = Component.text()
                 .append(event.player.name())
