@@ -5,6 +5,7 @@ import dev.cube1.minecord.plugin.command.MinecordCommandHandler
 import dev.cube1.minecord.plugin.listener.MinecordListener
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.requests.GatewayIntent
 
@@ -47,6 +48,8 @@ class Minecord(private val plugin: CorePlugin, token: String, option: MinecordOp
         guild?.updateCommands()?.addCommands(
             option.minecordCommandHandlers.map { it.commandData() }
         )
+
+        if (Config.Settings.Activity.enable) jda.presence.activity = Activity.of(Activity.ActivityType.PLAYING, Config.Settings.Activity.context)
     }
 
     val webhookClient = WebhookClientBuilder(Config.Discord.webhook_url).buildJDA()
