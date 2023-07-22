@@ -41,7 +41,7 @@ class Minecord(private val plugin: CorePlugin, token: String, option: MinecordOp
 
         jda = builder.build()
 
-        val guildId = Config.discord.guild_id
+        val guildId = Config.Discord.guild_id
         val guild = jda.getGuildById(guildId)
 
         guild?.updateCommands()?.addCommands(
@@ -49,7 +49,7 @@ class Minecord(private val plugin: CorePlugin, token: String, option: MinecordOp
         )
     }
 
-    val webhookClient = WebhookClientBuilder(Config.discord.webhook_url).buildJDA()
+    val webhookClient = WebhookClientBuilder(Config.Discord.webhook_url).buildJDA()
 
 
     fun stop() {

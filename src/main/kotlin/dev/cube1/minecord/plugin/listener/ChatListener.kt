@@ -3,6 +3,7 @@ package dev.cube1.minecord.plugin.listener
 import club.minnced.discord.webhook.WebhookClientBuilder
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import dev.cube1.minecord.plugin.Config
+import dev.cube1.minecord.plugin.util.PlaceholderBuilder
 import dev.vankka.mcdiscordreserializer.discord.DiscordSerializer
 import dev.vankka.mcdiscordreserializer.minecraft.MinecraftSerializer
 import io.papermc.paper.event.player.AsyncChatEvent
@@ -16,15 +17,16 @@ class ChatListener : MinecordListener() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
         try {
-            if (event.author.globalName == null || event.channel.id != Config.discord.channels.chat_id) return
-            val message = MinecraftSerializer.INSTANCE.serialize(event.message.contentDisplay)
-            val fullMessage = Component.text()
-                .append(Component.text(event.author.globalName!!))
-                .append(Component.text(": "))
-                .append(message)
-                .build()
+            if (event.author.globalName == null || event.channel.id != Config.Discord.chat_id) return
 
-            plugin.server.broadcast(fullMessage)
+            val placeholder = PlaceholderBuilder().apply {
+                useUserTag(event.author)
+                useMessageTag(event.message)
+            }.build()
+
+            val message = placeholder.deserialize(Config.Format.discord_user_chat)
+
+            plugin.server.broadcast(message)
         } catch (ignore: IllegalStateException) {}
 
     }

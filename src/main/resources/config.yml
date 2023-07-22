@@ -1,35 +1,13 @@
 discord:
   token: "" # discord bot token
   guild_id: "" # target guild id
+  chat_id: "" # target channel id
   webhook_url: "" # discord webhook url
-  channels:
-    chat_id: "" # target channel id
-    srv_id: "" # SRV logging not working
 
 settings:
-  custom_message: true # minecraft join quit message setting
   activity:
     enable: true
     context: "Minecord" # activity string
-  srv:
-    enable: false # not working
-  style: 0
-
-format:
-  enable: "🏁 서버가 활성화 되었어요"
-  disable: "🛑 서버가 비활성화 되었어요"
-  online: "현재 서버에 사람이 없어요"
-  channel: "설정된 채널에서만 이 명령어를 사용하실 수 있어요"
-  error: "명령어 실행 도중에 오류가 발생 했어요"
-  chat:
-    mc: "{aqua}{user}{reset}: {context}"
-    discord: "{user}: {context}"
-  player:
-    join: "{user}님이 게임에 접속했어요. {online}/{max}명"
-    quit: "{user}님이 게임에서 나갔어요. {online}/{max}명"
-    death: "{user}님이 사망 하셨어요"
-    advancement: "{user}님이 {advancement}을(를) 클리어 하셨어요"
-    kick: "{user}님이 추방 되었어요"
 
 color:
   default: 0x77C4A3
@@ -37,3 +15,9 @@ color:
   quit: 0xDD0000
   death: 0x3E3E3E
   kick: 0x2D2D2D
+
+format: # Mini message format
+  user_join: "<user>님이 게임에 접속했어요. <currentplayer>/<maxplayer>"
+  user_quit: "<user>님이 게임에서 나갔어요. <currentplayer>/<maxplayer>"
+  forbidden_channel: "설정된 채널에서만 이 명령어를 사용하실 수 있어요"
+  discord_user_chat: "<user>: <message>"
