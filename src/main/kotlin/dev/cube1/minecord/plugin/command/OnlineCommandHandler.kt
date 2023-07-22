@@ -10,8 +10,8 @@ class OnlineCommandHandler : MinecordCommandHandler() {
 
     override fun commandData(): SlashCommandData = Commands.slash("online", "현재 접속해 있는 유저의 리스트를 확인해볼 수 있어요")
     override fun handle(event: SlashCommandInteractionEvent) {
-        if (event.channel.id != Config.discord.channels.chat_id) {
-            return event.reply(Config.format.channel).setEphemeral(true).queue()
+        if (event.channel.id != Config.Discord.chat_id) {
+            return event.reply(Config.Format.forbidden_channel).setEphemeral(true).queue()
         }
 
         val onlinePlayers = plugin.server.onlinePlayers
@@ -21,7 +21,7 @@ class OnlineCommandHandler : MinecordCommandHandler() {
             addField("**인원**", "${onlinePlayers.size}/${plugin.server.maxPlayers}", false)
             addField("**플레이어**", onlinePlayers.joinToString(prefix = "```* ", postfix = "```", separator = "\n* ") { it.name }, false)
             setFooter(event.user.globalName, event.user.avatarUrl ?: event.user.defaultAvatarUrl)
-            setColor(Config.color.default)
+            setColor(Config.Color.default)
         }.build()
 
         event.replyEmbeds(embed).queue()

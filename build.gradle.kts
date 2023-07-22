@@ -20,6 +20,7 @@ dependencies {
     implementation(kotlin("stdlib"))
     implementation("net.dv8tion:JDA:$jdaVersion")
     implementation("club.minnced:discord-webhooks:$webhooksVersion")
+    implementation("net.kyori:adventure-text-minimessage:$adventureVersion")
     implementation("dev.vankka:mcdiscordreserializer:$mcdiscordreserializerVersion")
     compileOnly("io.papermc.paper:paper-api:${minecraftVersion}-R0.1-SNAPSHOT")
 }
